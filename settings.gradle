@@ -1,0 +1,2 @@
+include ':app', ':lottery-parser', ':repository'
+rootProject.name='L'

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="large_table_title_background">@color/colorPrimary</color>
+    <color name="large_table_sub_total_background">#15008577</color>
+    <color name="large_table_date_text_foreground">@android:color/white</color>
+    <color name="large_table_invisible_text_foreground">@android:color/background_light</color>
+    <color name="large_table_number_text_foreground">@color/colorPrimaryDark</color>
+    <color name="large_table_special_number_text_foreground">@color/colorAccent</color>
+    <color name="cell_background_color">#A0A0A0</color>
+</resources>
