@@ -17,4 +17,4 @@ data class LtoHKEntity(
     val column1: List<CellData>,
 
     val isSubTotal: Boolean = false
-)
+): LotteryEntity()

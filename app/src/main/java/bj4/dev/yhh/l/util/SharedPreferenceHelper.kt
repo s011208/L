@@ -16,7 +16,7 @@ class SharedPreferenceHelper(context: Context) {
 
     val generalSettings = context.getSharedPreferences(PREFERENCE_GENERAL, Context.MODE_PRIVATE)
 
-    fun getDisplayType() = generalSettings.getInt(KEY_DISPLAY_TYPE, DISPLAY_TYPE_ORDER)
+    fun getSortingType() = generalSettings.getInt(KEY_DISPLAY_TYPE, DISPLAY_TYPE_ORDER)
 
     fun setDisplayType(type: Int) = generalSettings.edit().putInt(KEY_DISPLAY_TYPE, type).apply()
 }

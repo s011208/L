@@ -19,4 +19,4 @@ data class LtoEntity(
     val column2: List<CellData>,
 
     val isSubTotal: Boolean = false
-)
+): LotteryEntity()

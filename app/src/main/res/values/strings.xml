@@ -8,6 +8,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_sorting">Sorting</string>
+    <string name="action_move_to_bottom">Bottom</string>
+    <string name="action_move_to_top">Top</string>
 
     <string name="large_table">Large Table</string>
 

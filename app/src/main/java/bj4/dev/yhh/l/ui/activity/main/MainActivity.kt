@@ -1,26 +1,30 @@
 package bj4.dev.yhh.l.ui.activity.main
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.dialog.SortingDialogFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    val activityViewModel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,13 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        activityViewModel.sortingType.observe(this, Observer { sortingType ->
+            val fragment = getCurrentFragment()
+            if (fragment is MainActivityActions) {
+                fragment.onSortingTypeChanged(sortingType)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -54,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -65,6 +77,20 @@ class MainActivity : AppCompatActivity() {
                 SortingDialogFragment().show(supportFragmentManager, "SortingDialogFragment")
                 true
             }
+            R.id.action_move_to_top -> {
+                val fragment = getCurrentFragment()
+                if (fragment is MainActivityActions) {
+                    fragment.onMoveToTop()
+                }
+                true
+            }
+            R.id.action_move_to_bottom -> {
+                val fragment = getCurrentFragment()
+                if (fragment is MainActivityActions) {
+                    fragment.onMoveToBottom()
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -72,5 +98,19 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun getCurrentFragment(): androidx.fragment.app.Fragment? {
+        return supportFragmentManager.fragments[0].childFragmentManager.fragments[0]
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activityViewModel.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activityViewModel.pause()
     }
 }

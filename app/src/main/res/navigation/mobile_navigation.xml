@@ -7,19 +7,34 @@
 
     <fragment
         android:id="@+id/nav_lto_hk"
-        android:name="bj4.dev.yhh.l.ui.fragment.lto_hk.LtoHKFragment"
+        android:name="bj4.dev.yhh.l.ui.fragment.large_table.lto_hk.LtoHKFragment"
         android:label="@string/menu_lto_hk"
-        tools:layout="@layout/fragment_lto_hk" />
+        tools:layout="@layout/fragment_lto_hk">
+        <argument
+            android:name="lto_type"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_lto_big"
-        android:name="bj4.dev.yhh.l.ui.fragment.lto_big.LtoBigFragment"
+        android:name="bj4.dev.yhh.l.ui.fragment.large_table.lto_big.LtoBigFragment"
         android:label="@string/menu_lto_big"
-        tools:layout="@layout/fragment_lto_big" />
+        tools:layout="@layout/fragment_lto_big">
+        <argument
+            android:name="lto_type"
+            android:defaultValue="1"
+            app:argType="integer" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_lto"
-        android:name="bj4.dev.yhh.l.ui.fragment.lto.LtoFragment"
+        android:name="bj4.dev.yhh.l.ui.fragment.large_table.lto.LtoFragment"
         android:label="@string/menu_lto"
-        tools:layout="@layout/fragment_lto" />
+        tools:layout="@layout/fragment_lto">
+        <argument
+            android:name="lto_type"
+            android:defaultValue="2"
+            app:argType="integer" />
+    </fragment>
 </navigation>

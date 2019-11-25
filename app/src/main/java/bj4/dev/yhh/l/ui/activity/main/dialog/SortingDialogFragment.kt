@@ -17,7 +17,7 @@ class SortingDialogFragment : DialogFragment() {
             .setTitle(R.string.action_sorting)
             .setSingleChoiceItems(
                 R.array.sorting_array,
-                sharedPreferenceHelper.getDisplayType()
+                sharedPreferenceHelper.getSortingType()
             ) { _, which ->
                 sharedPreferenceHelper.setDisplayType(which)
                 dismiss()

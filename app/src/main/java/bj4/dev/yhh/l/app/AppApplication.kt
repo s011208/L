@@ -2,9 +2,8 @@ package bj4.dev.yhh.l.app
 
 import android.app.Application
 import bj4.dev.yhh.l.BuildConfig
-import bj4.dev.yhh.l.ui.fragment.lto.LtoViewModel
-import bj4.dev.yhh.l.ui.fragment.lto_big.LtoBigViewModel
-import bj4.dev.yhh.l.ui.fragment.lto_hk.LtoHKViewModel
+import bj4.dev.yhh.l.ui.activity.main.MainActivityViewModel
+import bj4.dev.yhh.l.ui.fragment.large_table.LargeTableViewModel
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.repository.LotteryRepository
@@ -22,9 +21,8 @@ class AppApplication : Application() {
         single { LotteryRepository(get()) }
         single { SharedPreferenceHelper(get()) }
 
-        viewModel { LtoHKViewModel(get(), get()) }
-        viewModel { LtoBigViewModel(get(), get()) }
-        viewModel { LtoViewModel(get(), get()) }
+        viewModel { LargeTableViewModel(get(), get()) }
+        viewModel { MainActivityViewModel(get()) }
     }
 
     override fun onCreate() {

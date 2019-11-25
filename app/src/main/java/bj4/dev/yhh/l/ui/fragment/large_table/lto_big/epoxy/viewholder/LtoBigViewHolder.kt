@@ -1,4 +1,4 @@
-package bj4.dev.yhh.l.ui.fragment.lto_big.epoxy.viewholder
+package bj4.dev.yhh.l.ui.fragment.large_table.lto_big.epoxy.viewholder
 
 import android.graphics.Color
 import android.view.LayoutInflater
