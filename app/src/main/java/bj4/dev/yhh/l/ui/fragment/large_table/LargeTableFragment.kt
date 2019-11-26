@@ -13,7 +13,7 @@ import bj4.dev.yhh.l.ui.fragment.large_table.epoxy.controller.LargeTableHeaderVi
 import bj4.dev.yhh.l.ui.fragment.large_table.epoxy.controller.LargeTableViewController
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.entity.LotteryEntity
-import kotlinx.android.synthetic.main.fragment_lto_hk.*
+import kotlinx.android.synthetic.main.fragment_large_table.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class LargeTableFragment : Fragment(), MainActivityActions {

@@ -4,6 +4,7 @@ import android.app.Application
 import bj4.dev.yhh.l.BuildConfig
 import bj4.dev.yhh.l.ui.activity.main.MainActivityViewModel
 import bj4.dev.yhh.l.ui.fragment.large_table.LargeTableViewModel
+import bj4.dev.yhh.l.ui.fragment.small_table.SmallTableViewModel
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.repository.LotteryRepository
@@ -23,6 +24,7 @@ class AppApplication : Application() {
 
         viewModel { LargeTableViewModel(get(), get()) }
         viewModel { MainActivityViewModel(get()) }
+        viewModel { SmallTableViewModel(get()) }
     }
 
     override fun onCreate() {

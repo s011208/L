@@ -5,8 +5,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -19,12 +22,15 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     val activityViewModel: MainActivityViewModel by viewModel()
+
+    private var currentFragmentId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +52,17 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.nav_lto_hk,
                 R.id.nav_lto_big,
-                R.id.nav_lto
+                R.id.nav_lto,
+                R.id.nav_small_lto_hk,
+                R.id.nav_small_lto_big,
+                R.id.nav_small_lto
             ), drawerLayout
         )
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            currentFragmentId = destination.id
+            invalidateOptionsMenu()
+        }
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -61,11 +75,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
+        when (currentFragmentId) {
+            R.id.nav_lto, R.id.nav_lto_big, R.id.nav_lto_hk -> {
+                menu.children.forEach { if (it.itemId == R.id.action_sorting) it.isEnabled = true }
+            }
+            R.id.nav_small_lto, R.id.nav_small_lto_big, R.id.nav_small_lto_hk -> {
+                menu.children.forEach { if (it.itemId == R.id.action_sorting) it.isEnabled = false }
+            }
+            else -> {
+                throw IllegalArgumentException("unexpected fragment id")
+            }
+        }
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

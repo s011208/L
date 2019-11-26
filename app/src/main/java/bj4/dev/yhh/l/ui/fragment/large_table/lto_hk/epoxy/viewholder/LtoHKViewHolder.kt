@@ -131,7 +131,7 @@ abstract class LtoHKViewHolder : EpoxyModelWithHolder<LtoHKViewHolder.Holder>() 
         val rtn = super.buildView(parent)
         val container = rtn.findViewById<LinearLayout>(R.id.container)
         val date =
-            LayoutInflater.from(container.context).inflate(R.layout.epoxy_cell_date, null, false)
+            LayoutInflater.from(container.context).inflate(R.layout.epoxy_large_cell_date, null, false)
                 .also {
                     it.id = R.id.epoxy_cell_date
                 }
@@ -148,7 +148,7 @@ abstract class LtoHKViewHolder : EpoxyModelWithHolder<LtoHKViewHolder.Holder>() 
 
         for (index in Constants.LTO_HK_MIN..Constants.LTO_HK_MAX) {
             val cell =
-                LayoutInflater.from(container.context).inflate(R.layout.epoxy_cell, null, false)
+                LayoutInflater.from(container.context).inflate(R.layout.epoxy_large_cell, null, false)
                     .also {
                         it.id = index
                     }
