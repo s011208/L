@@ -1,2 +1,2 @@
-include ':app', ':lottery-parser', ':repository'
+include ':app', ':lottery-parser', ':repository', ':job-schedulers', ':log'
 rootProject.name='L'

@@ -1,11 +1,15 @@
 package bj4.dev.yhh.l.app
 
 import android.app.Application
+import android.content.Intent
+import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
+import bj4.dev.yhh.job_schedulers.UpdateLotteryJobSchedulerService
 import bj4.dev.yhh.l.BuildConfig
 import bj4.dev.yhh.l.ui.activity.main.MainActivityViewModel
 import bj4.dev.yhh.l.ui.fragment.large_table.LargeTableViewModel
 import bj4.dev.yhh.l.ui.fragment.small_table.SmallTableViewModel
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
+import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.repository.LotteryRepository
 import com.facebook.stetho.Stetho
@@ -21,6 +25,7 @@ class AppApplication : Application() {
         single { LotteryDatabaseHelper(androidContext()) }
         single { LotteryRepository(get()) }
         single { SharedPreferenceHelper(get()) }
+        single { LogHelper(get()) }
 
         viewModel { LargeTableViewModel(get(), get()) }
         viewModel { MainActivityViewModel(get()) }
@@ -45,5 +50,7 @@ class AppApplication : Application() {
                     .build()
             )
         }
+
+        UpdateLotteryJobSchedulerService.schedule(this@AppApplication)
     }
 }

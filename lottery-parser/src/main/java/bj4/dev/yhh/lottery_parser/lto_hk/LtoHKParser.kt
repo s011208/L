@@ -10,7 +10,7 @@ import kotlin.collections.ArrayList
 
 class LtoHKParser : LotteryParser {
     companion object {
-        private const val URL = "https://www.pilio.idv.tw/ltohk/list.asp?indexpage="
+        private const val URL = "https://www.pilio.idv.tw/ltohk/ServerF/list.asp?indexpage="
 
         private const val COLUMN_COUNT = 4
 

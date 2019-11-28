@@ -110,7 +110,7 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                         complete(emitter)
                         break
                     } else {
-                        Timber.i("last time stamp: ${mapData[data.size - 1].timeStamp}")
+                        Timber.i("last time stamp of Lto: ${mapData[data.size - 1].timeStamp}, page: $page")
                         val lastRecord = mapData.find { it.timeStamp == 1201104000000 }
                         if (lastRecord != null) {
                             lotteryDatabaseHelper.database.getResultDao()
@@ -249,6 +249,8 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                     break
                 }
 
+                Timber.v("data size: ${data.size}")
+
                 val mapData = data.map { item ->
                     val column1 = ArrayList<CellData>()
 
@@ -286,7 +288,7 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                         complete(emitter)
                         break
                     } else {
-                        Timber.i("last time stamp: ${mapData[data.size - 1].timeStamp}")
+                        Timber.i("last time stamp of LtoHK: ${mapData[data.size - 1].timeStamp}, page: $page")
                         val lastRecord = mapData.find { it.timeStamp == 1025712000000 }
                         if (lastRecord != null) {
                             lotteryDatabaseHelper.database.getResultDao()
@@ -451,7 +453,7 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                         complete(emitter)
                         break
                     } else {
-                        Timber.i("last time stamp: ${mapData[data.size - 1].timeStamp}")
+                        Timber.i("last time stamp of LtoBig: ${mapData[data.size - 1].timeStamp}, page: $page")
                         val lastRecord = mapData.find { it.timeStamp == 1073232000000 }
                         if (lastRecord != null) {
                             lotteryDatabaseHelper.database.getResultDao()
