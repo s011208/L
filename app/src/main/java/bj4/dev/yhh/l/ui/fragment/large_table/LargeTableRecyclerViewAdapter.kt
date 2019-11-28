@@ -17,6 +17,8 @@ import bj4.dev.yhh.repository.entity.LotteryEntity
 import bj4.dev.yhh.repository.entity.LtoBigEntity
 import bj4.dev.yhh.repository.entity.LtoEntity
 import bj4.dev.yhh.repository.entity.LtoHKEntity
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.subjects.PublishSubject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,8 +32,11 @@ class LargeTableRecyclerViewAdapter(
         private val subTotalDateFormatter = SimpleDateFormat("yyyy/MM", Locale.TRADITIONAL_CHINESE)
     }
 
+    val clickIntent = PublishSubject.create<Int>()
+
     val itemList = ArrayList<LotteryEntity>()
     var sortingType = SharedPreferenceHelper.DISPLAY_TYPE_ORDER
+    var selectedIndex = -1
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -41,11 +46,12 @@ class LargeTableRecyclerViewAdapter(
             parent: ViewGroup,
             viewType: Int
         ): LargeTableRecyclerViewHolder {
-            val container = LayoutInflater.from(parent.context).inflate(
+            val view = LayoutInflater.from(parent.context).inflate(
                 R.layout.epoxy_large_table,
                 parent,
                 false
-            ) as LinearLayout
+            )
+            val container = view.findViewById<LinearLayout>(R.id.container)
             val date =
                 LayoutInflater.from(container.context)
                     .inflate(R.layout.epoxy_large_cell_date, null, false)
@@ -77,7 +83,7 @@ class LargeTableRecyclerViewAdapter(
             }
 
             return LargeTableRecyclerViewHolder(
-                container
+                view
             )
         }
 
@@ -85,11 +91,12 @@ class LargeTableRecyclerViewAdapter(
             parent: ViewGroup,
             viewType: Int
         ): LargeTableRecyclerViewHolder {
-            val container = LayoutInflater.from(parent.context).inflate(
+            val view = LayoutInflater.from(parent.context).inflate(
                 R.layout.epoxy_large_table,
                 parent,
                 false
-            ) as LinearLayout
+            )
+            val container = view.findViewById<LinearLayout>(R.id.container)
             val date =
                 LayoutInflater.from(container.context)
                     .inflate(R.layout.epoxy_large_cell_date, null, false)
@@ -120,7 +127,7 @@ class LargeTableRecyclerViewAdapter(
                 )
             }
             return LargeTableRecyclerViewHolder(
-                container
+                view
             )
         }
 
@@ -128,11 +135,12 @@ class LargeTableRecyclerViewAdapter(
             parent: ViewGroup,
             viewType: Int
         ): LargeTableRecyclerViewHolder {
-            val container = LayoutInflater.from(parent.context).inflate(
+            val view = LayoutInflater.from(parent.context).inflate(
                 R.layout.epoxy_large_table,
                 parent,
                 false
-            ) as LinearLayout
+            )
+            val container = view.findViewById<LinearLayout>(R.id.container)
             val date =
                 LayoutInflater.from(container.context)
                     .inflate(R.layout.epoxy_large_cell_date, null, false)
@@ -175,7 +183,7 @@ class LargeTableRecyclerViewAdapter(
                 )
             }
             return LargeTableRecyclerViewHolder(
-                container
+                view
             )
         }
 
@@ -226,6 +234,26 @@ class LargeTableRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: LargeTableRecyclerViewHolder, position: Int) {
+        fun setClickListener(
+            entity: LotteryEntity,
+            holder: LargeTableRecyclerViewHolder,
+            position: Int
+        ) {
+            if (!isSubTotal(entity)) {
+                holder.container.clicks().doOnNext { clickIntent.onNext(position) }.subscribe()
+            }
+            if (selectedIndex == position) holder.foreground.setBackgroundColor(
+                Color.argb(
+                    0x10,
+                    0x00,
+                    0x85,
+                    0x77
+                )
+            ) else {
+                holder.foreground.setBackgroundColor(Color.TRANSPARENT)
+            }
+        }
+
         fun onBindLtoHKViewHolder(holder: LargeTableRecyclerViewHolder, position: Int) {
             fun getIndexBySortingType(index: Int, sortingType: Int): Int {
                 return when (sortingType) {
@@ -255,7 +283,7 @@ class LargeTableRecyclerViewAdapter(
 
             fun bindOrderItem(holder: LargeTableRecyclerViewHolder) {
                 val entity = itemList[position]
-
+                setClickListener(entity, holder, position)
                 if (isSubTotal(entity)) holder.container.setBackgroundColor(
                     holder.container.resources.getColor(
                         R.color.large_table_sub_total_background
@@ -349,7 +377,7 @@ class LargeTableRecyclerViewAdapter(
 
             fun bindOrderItem(holder: LargeTableRecyclerViewHolder) {
                 val entity = itemList[position]
-
+                setClickListener(entity, holder, position)
                 if (isSubTotal(entity)) holder.container.setBackgroundColor(
                     holder.container.resources.getColor(
                         R.color.large_table_sub_total_background
@@ -451,7 +479,7 @@ class LargeTableRecyclerViewAdapter(
 
             fun bindOrderItem(holder: LargeTableRecyclerViewHolder) {
                 val entity = itemList[position]
-
+                setClickListener(entity, holder, position)
                 if (isSubTotal(entity)) holder.container.setBackgroundColor(
                     holder.container.resources.getColor(
                         R.color.large_table_sub_total_background
@@ -541,6 +569,7 @@ class LargeTableRecyclerViewAdapter(
             if (isHeader) bindOrderHeader(holder)
             else bindOrderItem(holder)
         }
+
         when (lotteryType) {
             LotteryType.LtoHK -> onBindLtoHKViewHolder(holder, position)
             LotteryType.LtoBig -> onBindLtoBigViewHolder(holder, position)
@@ -550,4 +579,7 @@ class LargeTableRecyclerViewAdapter(
     }
 }
 
-class LargeTableRecyclerViewHolder(val container: View) : RecyclerView.ViewHolder(container)
+class LargeTableRecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val container: LinearLayout = view.findViewById(R.id.container)
+    val foreground: View = view.findViewById(R.id.foreground)
+}

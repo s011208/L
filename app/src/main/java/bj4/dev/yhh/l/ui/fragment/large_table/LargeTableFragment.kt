@@ -11,6 +11,8 @@ import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.entity.LotteryEntity
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_large_table.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -25,6 +27,8 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
 
     private lateinit var recyclerViewAdapter: LargeTableRecyclerViewAdapter
     private lateinit var headerAdapter: LargeTableRecyclerViewAdapter
+
+    private val compositeDisposable = CompositeDisposable()
 
     private var data: List<LotteryEntity> = ArrayList()
     private var sortingType = SharedPreferenceHelper.DISPLAY_TYPE_ORDER
@@ -50,6 +54,11 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = recyclerViewAdapter
+        compositeDisposable += recyclerViewAdapter.clickIntent.subscribe {
+            recyclerViewAdapter.notifyItemChanged(recyclerViewAdapter.selectedIndex)
+            recyclerViewAdapter.selectedIndex = it
+            recyclerViewAdapter.notifyItemChanged(it)
+        }
 
         fragmentViewModel.rawData.observe(this, Observer {
             data = it.first
@@ -78,6 +87,11 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
         headerAdapter.sortingType = sortingType
         headerAdapter.notifyDataSetChanged()
         Timber.v("onSortingTypeChanged end")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
     }
 
     override fun onMoveToBottom() {
