@@ -1,9 +1,8 @@
-package bj4.dev.yhh.l.ui.fragment.large_table
+package bj4.dev.yhh.l.ui.activity.main.fragment.small_table
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.LotteryType
 import bj4.dev.yhh.repository.entity.LotteryEntity
 import bj4.dev.yhh.repository.repository.LotteryRepository
@@ -13,32 +12,29 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class LargeTableViewModel(
-    private val lotteryRepository: LotteryRepository,
-    private val sharedPreferenceHelper: SharedPreferenceHelper
-) : ViewModel() {
+class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : ViewModel() {
 
-    private val _rawData = MutableLiveData<Pair<List<LotteryEntity>, Int>>().apply {
-        value = Pair(ArrayList(), sharedPreferenceHelper.getSortingType())
+    private val _rawData = MutableLiveData<List<LotteryEntity>>().apply {
+        value = ArrayList()
     }
 
-    val rawData: LiveData<Pair<List<LotteryEntity>, Int>> = _rawData
-
-    private val compositeDisposable = CompositeDisposable()
+    val rawData: LiveData<List<LotteryEntity>> = _rawData
 
     private var ltoType: Int = 0
+
+    private val compositeDisposable = CompositeDisposable()
 
     fun load() {
         when (ltoType) {
             LotteryType.LtoHK -> {
                 compositeDisposable += lotteryRepository.getLtoHK()
+                    .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .map { return@map it.subList(0, it.size) }
                     .subscribe(
                         { list ->
                             Timber.i("LtoHK item size: ${list.size}")
-                            _rawData.value = Pair(list, sharedPreferenceHelper.getSortingType())
+                            _rawData.value = list
                         },
                         {
                             Timber.w(it, "failed")
@@ -47,12 +43,13 @@ class LargeTableViewModel(
             }
             LotteryType.LtoBig -> {
                 compositeDisposable += lotteryRepository.getLtoBig()
+                    .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         { list ->
                             Timber.i("LtoBig item size: ${list.size}")
-                            _rawData.value = Pair(list, sharedPreferenceHelper.getSortingType())
+                            _rawData.value = list
                         },
                         {
                             Timber.w(it, "failed")
@@ -61,12 +58,13 @@ class LargeTableViewModel(
             }
             LotteryType.Lto -> {
                 compositeDisposable += lotteryRepository.getLto()
+                    .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         { list ->
                             Timber.i("Lto item size: ${list.size}")
-                            _rawData.value = Pair(list, sharedPreferenceHelper.getSortingType())
+                            _rawData.value = list
                         },
                         {
                             Timber.w(it, "failed")

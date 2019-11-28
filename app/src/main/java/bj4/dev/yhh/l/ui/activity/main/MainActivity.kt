@@ -1,5 +1,6 @@
 package bj4.dev.yhh.l.ui.activity.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,6 +18,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.dialog.SortingDialogFragment
+import bj4.dev.yhh.l.ui.activity.settings.SettingsActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -93,7 +95,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                Timber.e("action_settings")
+                startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
             R.id.action_sorting -> {

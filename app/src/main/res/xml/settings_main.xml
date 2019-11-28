@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/settings_category_log_title">
+        <Preference
+            android:key="key_job_service_log"
+            android:summary="@string/settings_preference_job_service_log_summary"
+            android:title="@string/settings_preference_job_service_log_title" />
+
+        <Preference
+            android:key="key_update_time_service_log"
+            android:summary="@string/settings_preference_update_time_service_log_summary"
+            android:title="@string/settings_preference_update_time_service_log_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

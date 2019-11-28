@@ -1,4 +1,4 @@
-package bj4.dev.yhh.l.ui.fragment.large_table
+package bj4.dev.yhh.l.ui.activity.main.fragment.large_table
 
 import android.os.Bundle
 import android.view.LayoutInflater

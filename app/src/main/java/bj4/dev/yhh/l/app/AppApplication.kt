@@ -1,13 +1,12 @@
 package bj4.dev.yhh.l.app
 
 import android.app.Application
-import android.content.Intent
-import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.job_schedulers.UpdateLotteryJobSchedulerService
 import bj4.dev.yhh.l.BuildConfig
+import bj4.dev.yhh.l.ui.activity.log.LogActivityViewModel
 import bj4.dev.yhh.l.ui.activity.main.MainActivityViewModel
-import bj4.dev.yhh.l.ui.fragment.large_table.LargeTableViewModel
-import bj4.dev.yhh.l.ui.fragment.small_table.SmallTableViewModel
+import bj4.dev.yhh.l.ui.activity.main.fragment.large_table.LargeTableViewModel
+import bj4.dev.yhh.l.ui.activity.main.fragment.small_table.SmallTableViewModel
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
@@ -30,6 +29,7 @@ class AppApplication : Application() {
         viewModel { LargeTableViewModel(get(), get()) }
         viewModel { MainActivityViewModel(get()) }
         viewModel { SmallTableViewModel(get()) }
+        viewModel { (type: Int) -> LogActivityViewModel(type, get()) }
     }
 
     override fun onCreate() {

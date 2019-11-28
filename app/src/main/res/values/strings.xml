@@ -17,4 +17,10 @@
     <string name="menu_lto_hk">Lto HK</string>
     <string name="menu_lto">Lto</string>
     <string name="menu_lto_big">Lto Big</string>
+
+    <string name="settings_category_log_title">Log</string>
+    <string name="settings_preference_job_service_log_title">Job service</string>
+    <string name="settings_preference_job_service_log_summary">Job service log</string>
+    <string name="settings_preference_update_time_service_log_title">Update time service</string>
+    <string name="settings_preference_update_time_service_log_summary">Update time service log</string>
 </resources>

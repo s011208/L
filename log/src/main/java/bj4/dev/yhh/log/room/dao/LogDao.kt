@@ -11,13 +11,13 @@ import io.reactivex.Single
 @Dao
 internal interface LogDao {
     @Query("SELECT * FROM `UpdateServiceTimeEntity`")
-    fun queryUpdateServiceTimeEntity(): Single<UpdateServiceTimeEntity>
+    fun queryUpdateServiceTimeEntity(): Single<List<UpdateServiceTimeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: UpdateServiceTimeEntity): Long
 
     @Query("SELECT * FROM `JobServiceEntity`")
-    fun queryJobServiceEntity(): Single<JobServiceEntity>
+    fun queryJobServiceEntity(): Single<List<JobServiceEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: JobServiceEntity): Long

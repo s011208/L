@@ -31,6 +31,12 @@
             android:name="bj4.dev.yhh.job_schedulers.UpdateLotteryJobSchedulerService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <activity
+            android:name=".ui.activity.settings.SettingsActivity"
+            android:label="@string/action_settings" />
+
+        <activity android:name=".ui.activity.log.LogActivity" />
     </application>
 
 </manifest>
