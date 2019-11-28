@@ -9,12 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
-import bj4.dev.yhh.l.ui.fragment.large_table.epoxy.controller.LargeTableHeaderViewController
-import bj4.dev.yhh.l.ui.fragment.large_table.epoxy.controller.LargeTableViewController
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.entity.LotteryEntity
 import kotlinx.android.synthetic.main.fragment_large_table.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 abstract class LargeTableFragment : Fragment(), MainActivityActions {
 
@@ -24,9 +23,8 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
 
     val fragmentViewModel: LargeTableViewModel by viewModel()
 
-    private val recyclerViewController = LargeTableViewController()
-    private val headerController = LargeTableHeaderViewController()
-    private val footerController = LargeTableViewController()
+    private lateinit var recyclerViewAdapter: LargeTableRecyclerViewAdapter
+    private lateinit var headerAdapter: LargeTableRecyclerViewAdapter
 
     private var data: List<LotteryEntity> = ArrayList()
     private var sortingType = SharedPreferenceHelper.DISPLAY_TYPE_ORDER
@@ -45,32 +43,41 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
         fragmentViewModel.setLtoType((arguments?.getInt(ARGUMENT_LTO_TYPE) ?: 0)
             .also {
                 ltoType = it
+                recyclerViewAdapter = LargeTableRecyclerViewAdapter(it, false)
+                headerAdapter = LargeTableRecyclerViewAdapter(it, true)
             }
         )
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = recyclerViewController.adapter
+        recyclerView.adapter = recyclerViewAdapter
 
         fragmentViewModel.rawData.observe(this, Observer {
             data = it.first
             sortingType = it.second
-            recyclerViewController.setData(data, sortingType, ltoType)
-            headerController.setData(sortingType, ltoType)
+            recyclerViewAdapter.sortingType = sortingType
+            recyclerViewAdapter.itemList.clear()
+            recyclerViewAdapter.itemList.addAll(data)
+            recyclerViewAdapter.notifyDataSetChanged()
+            headerAdapter.sortingType = sortingType
+            headerAdapter.notifyDataSetChanged()
         })
 
         header.layoutManager = LinearLayoutManager(requireContext())
-        header.adapter = headerController.adapter
-
-        footer.layoutManager = LinearLayoutManager(requireContext())
-        footer.adapter = footerController.adapter
+        header.adapter = headerAdapter
 
         fragmentViewModel.load()
     }
 
     override fun onSortingTypeChanged(sortingType: Int) {
+        Timber.v("onSortingTypeChanged start")
         this.sortingType = sortingType
-        recyclerViewController.setData(data, sortingType, ltoType)
-        headerController.setData(sortingType, ltoType)
+        recyclerViewAdapter.sortingType = sortingType
+        recyclerViewAdapter.itemList.clear()
+        recyclerViewAdapter.itemList.addAll(data)
+        recyclerViewAdapter.notifyDataSetChanged()
+        headerAdapter.sortingType = sortingType
+        headerAdapter.notifyDataSetChanged()
+        Timber.v("onSortingTypeChanged end")
     }
 
     override fun onMoveToBottom() {

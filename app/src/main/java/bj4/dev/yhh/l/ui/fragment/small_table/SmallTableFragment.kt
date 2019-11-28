@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
-import bj4.dev.yhh.l.ui.fragment.small_table.epoxy.controller.SmallTableViewController
 import bj4.dev.yhh.repository.entity.LotteryEntity
 import kotlinx.android.synthetic.main.fragment_large_table.recyclerView
 import kotlinx.android.synthetic.main.fragment_small_table.*
@@ -25,7 +24,7 @@ abstract class SmallTableFragment : Fragment(), MainActivityActions,
 
     val fragmentViewModel: SmallTableViewModel by viewModel()
 
-    private val controller = SmallTableViewController()
+    private lateinit var adapter: SmallTableRecyclerViewAdapter
 
     private var ltoType: Int = 0
 
@@ -50,16 +49,20 @@ abstract class SmallTableFragment : Fragment(), MainActivityActions,
         fragmentViewModel.setLtoType((arguments?.getInt(ARGUMENT_LTO_TYPE) ?: 0)
             .also {
                 ltoType = it
+                adapter = SmallTableRecyclerViewAdapter(it)
             }
         )
 
         fragmentViewModel.rawData.observe(this, Observer {
             list = it
-            controller.setData(list, ltoType, diffValue)
+            adapter.itemList.clear()
+            adapter.itemList.addAll(list)
+            adapter.diffValue = diffValue
+            adapter.notifyDataSetChanged()
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = controller.adapter
+        recyclerView.adapter = adapter
 
         radioButton0.setOnCheckedChangeListener(this)
         radioButton1.setOnCheckedChangeListener(this)
@@ -129,6 +132,7 @@ abstract class SmallTableFragment : Fragment(), MainActivityActions,
         }
         diffValue = diffSign * diffNumber
 
-        controller.setData(list, ltoType, diffValue)
+        adapter.diffValue = diffValue
+        adapter.notifyDataSetChanged()
     }
 }
