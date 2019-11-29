@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class JobServiceEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val timeStamp: Long = System.currentTimeMillis(),
     val message: String
