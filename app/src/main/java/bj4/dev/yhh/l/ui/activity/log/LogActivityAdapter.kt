@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
 
 class LogActivityAdapter : RecyclerView.Adapter<LogRecyclerViewHolder>() {
 
-    private val dateFormat = SimpleDateFormat("yyyy MM/dd", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("yyyy MM/dd HH:mm:ss", Locale.getDefault())
 
     val items = ArrayList<LogData>()
 

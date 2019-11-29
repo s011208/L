@@ -29,17 +29,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation Libs.appcompat
+    implementation Libs.core_ktx
+    testImplementation Libs.junit
+    androidTestImplementation Libs.junit_ext
+    androidTestImplementation Libs.espresso
 
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation "android.arch.persistence.room:runtime:1.1.1"
-    kapt "android.arch.persistence.room:compiler:1.1.1"
-    implementation "android.arch.persistence.room:rxjava2:1.1.1"
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation Libs.timber
+    implementation Libs.room_runtime
+    kapt Libs.room_compiler
+    implementation Libs.room_rxjava2
+    implementation Libs.rxjava2
+    implementation Libs.rxandroid
+    implementation Libs.gson
 }

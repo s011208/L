@@ -28,21 +28,21 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation Libs.appcompat
+    implementation Libs.core_ktx
+    testImplementation Libs.junit
+    androidTestImplementation Libs.junit_ext
+    androidTestImplementation Libs.espresso
     implementation project(path: ':repository')
 
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation Libs.timber
 
-    implementation 'org.koin:koin-android:2.0.1'
-    implementation 'org.koin:koin-android-scope:2.0.1'
+    implementation Libs.koin
+    implementation Libs.koin_scope
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
+    implementation Libs.rxjava2
+    implementation Libs.rxandroid
+    implementation Libs.rxkotlin
 
     implementation project(path: ':log')
 }

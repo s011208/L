@@ -28,12 +28,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation Libs.appcompat
+    implementation Libs.core_ktx
+    testImplementation Libs.junit
+    androidTestImplementation Libs.junit_ext
+    androidTestImplementation Libs.espresso
 
-    implementation 'org.jsoup:jsoup:1.12.1'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation Libs.jsoup
+    implementation Libs.timber
 }
