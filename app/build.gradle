@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
@@ -72,7 +73,12 @@ dependencies {
     implementation Libs.rxbinding_viewpager
     implementation Libs.rxbinding_viewpager2
 
+    implementation Libs.firebase_analytics
+    implementation Libs.firebase_remote_config
+
     implementation project(path: ':repository')
     implementation project(path: ':job-schedulers')
     implementation project(path: ':log')
 }
+
+apply plugin: 'com.google.gms.google-services'

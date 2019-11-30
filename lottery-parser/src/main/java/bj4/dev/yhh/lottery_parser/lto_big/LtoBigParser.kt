@@ -2,7 +2,11 @@ package bj4.dev.yhh.lottery_parser.lto_big
 
 import bj4.dev.yhh.lottery_parser.LotteryRawData
 import bj4.dev.yhh.lottery_parser.LotteryParser
+import bj4.dev.yhh.lottery_parser.lto.LtoParser
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import io.reactivex.Single
 import org.jsoup.Jsoup
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -18,11 +22,27 @@ class LtoBigParser : LotteryParser {
     }
 
     private val dateFormat = SimpleDateFormat(DATE_FORMATTER, Locale.getDefault())
+    override fun parseAsync(page: Int): Single<List<LotteryRawData>> = Single.create { emitter ->
+        FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener {
+            val url =
+                if (it.isSuccessful) {
+                    FirebaseRemoteConfig.getInstance().getString("url_lto_big")
+                } else {
+                    URL
+                }
+            Timber.v("parseAsync url: $url")
+            try {
+                emitter.onSuccess(parseInternal(url, page))
+            } catch (e: Exception) {
+                emitter.onError(e)
+            }
+        }
+    }
 
-    override fun parse(page: Int): List<LotteryRawData> {
+    private fun parseInternal(url: String, page: Int): List<LotteryRawData> {
         require(page > 0) { "page should >= 1" }
 
-        val doc = Jsoup.connect("$URL$page").get()
+        val doc = Jsoup.connect("$url$page").get()
         val elementTable = doc.select("table.auto-style1")
         val tds = elementTable.select("td")
 
@@ -54,6 +74,10 @@ class LtoBigParser : LotteryParser {
 //        }
 
         return rtn
+    }
+
+    override fun parse(page: Int): List<LotteryRawData> {
+        return parseInternal(URL, page)
     }
 
     private fun dateConverter(date: String): Long {

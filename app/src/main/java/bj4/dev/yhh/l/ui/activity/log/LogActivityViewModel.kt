@@ -33,7 +33,7 @@ class LogActivityViewModel(private val logType: Int, private val logHelper: LogH
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { list ->
                         return@map ArrayList<LogData>().apply {
-                            list.forEach { entity ->
+                            list.reversed().forEach { entity ->
                                 add(LogData(entity.timeStamp, entity.message))
                             }
                         }
@@ -52,7 +52,7 @@ class LogActivityViewModel(private val logType: Int, private val logHelper: LogH
                     .observeOn(AndroidSchedulers.mainThread())
                     .map { list ->
                         return@map ArrayList<LogData>().apply {
-                            list.forEach { entity ->
+                            list.reversed().forEach { entity ->
                                 add(LogData(entity.timeStamp, entity.message))
                             }
                         }

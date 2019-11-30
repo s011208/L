@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>url_lto_hk</key>
+        <value>https://www.pilio.idv.tw/ltohk/ServerF/list.asp?indexpage=</value>
+    </entry>
+    <entry>
+        <key>url_lto</key>
+        <value>https://www.pilio.idv.tw/lto/list.asp?indexpage=</value>
+    </entry>
+    <entry>
+        <key>url_lto_big</key>
+        <value>https://www.pilio.idv.tw/ltobig/list.asp?indexpage=</value>
+    </entry>
+</defaultsMap>

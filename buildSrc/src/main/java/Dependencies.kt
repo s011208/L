@@ -21,6 +21,8 @@ private object Versions {
     const val rxbinding = "3.1.0"
     const val gson = "2.8.6"
     const val jsoup = "1.12.1"
+    const val firebase = "17.2.1"
+    const val firebase_remote_config = "19.0.3"
 }
 
 object Libs {
@@ -66,4 +68,7 @@ object Libs {
 
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
     const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
+
+    const val firebase_analytics = "com.google.firebase:firebase-analytics:${Versions.firebase}"
+    const val firebase_remote_config = "com.google.firebase:firebase-config:${Versions.firebase_remote_config}"
 }

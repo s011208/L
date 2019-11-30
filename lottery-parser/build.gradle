@@ -36,4 +36,11 @@ dependencies {
 
     implementation Libs.jsoup
     implementation Libs.timber
+
+    implementation Libs.firebase_analytics
+    implementation Libs.firebase_remote_config
+
+    implementation Libs.rxjava2
+    implementation Libs.rxandroid
+    implementation Libs.rxkotlin
 }

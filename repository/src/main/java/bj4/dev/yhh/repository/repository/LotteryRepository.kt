@@ -54,7 +54,7 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
             for (page in 1 until Int.MAX_VALUE) {
-                val data = parser.parse(page)
+                val data = parser.parseAsync(page).blockingGet()
                 if (data.isEmpty()) {
                     complete(emitter)
                     break
@@ -243,7 +243,7 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
             for (page in 1 until Int.MAX_VALUE) {
-                val data = parser.parse(page)
+                val data = parser.parseAsync(page).blockingGet()
                 if (data.isEmpty()) {
                     complete(emitter)
                     break
@@ -410,7 +410,7 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
             for (page in 1 until Int.MAX_VALUE) {
-                val data = parser.parse(page)
+                val data = parser.parseAsync(page).blockingGet()
                 if (data.isEmpty()) {
                     complete(emitter)
                     break

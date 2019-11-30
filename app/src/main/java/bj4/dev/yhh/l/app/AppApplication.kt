@@ -3,6 +3,7 @@ package bj4.dev.yhh.l.app
 import android.app.Application
 import bj4.dev.yhh.job_schedulers.UpdateLotteryJobSchedulerService
 import bj4.dev.yhh.l.BuildConfig
+import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.log.LogActivityViewModel
 import bj4.dev.yhh.l.ui.activity.main.MainActivityViewModel
 import bj4.dev.yhh.l.ui.activity.main.fragment.large_table.LargeTableViewModel
@@ -12,6 +13,8 @@ import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.repository.LotteryRepository
 import com.facebook.stetho.Stetho
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -52,5 +55,12 @@ class AppApplication : Application() {
         }
 
         UpdateLotteryJobSchedulerService.schedule(this@AppApplication)
+
+        FirebaseRemoteConfig.getInstance().setDefaultsAsync(R.xml.firebase_remote_config)
+        FirebaseRemoteConfig.getInstance().setConfigSettingsAsync(
+            FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(3600)
+                .build()
+        )
     }
 }
