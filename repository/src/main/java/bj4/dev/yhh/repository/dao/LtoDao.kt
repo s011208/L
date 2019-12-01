@@ -22,4 +22,7 @@ interface LtoDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(items: List<LtoEntity>): List<Long>
+
+    @Query("DELETE FROM `LtoEntity`")
+    fun nukeTable()
 }

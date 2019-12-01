@@ -22,4 +22,7 @@ interface LtoBigDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(items: List<LtoBigEntity>): List<Long>
+
+    @Query("DELETE FROM `LtoBigEntity`")
+    fun nukeTable()
 }
