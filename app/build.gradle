@@ -81,6 +81,7 @@ dependencies {
     implementation project(path: ':repository')
     implementation project(path: ':job-schedulers')
     implementation project(path: ':log')
+    implementation project(path: ':tracker')
 }
 
 apply plugin: 'com.google.gms.google-services'

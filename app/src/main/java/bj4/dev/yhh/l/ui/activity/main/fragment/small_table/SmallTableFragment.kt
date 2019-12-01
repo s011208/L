@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
+import bj4.dev.yhh.l.ui.TrackableFragment
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
 import bj4.dev.yhh.repository.entity.LotteryEntity
 import com.jakewharton.rxbinding3.view.clicks
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_small_table.progressBar
 import kotlinx.android.synthetic.main.fragment_small_table.recyclerView
 import org.koin.android.viewmodel.ext.android.viewModel
 
-abstract class SmallTableFragment : Fragment(), MainActivityActions,
+abstract class SmallTableFragment : TrackableFragment(), MainActivityActions,
     CompoundButton.OnCheckedChangeListener {
 
     companion object {

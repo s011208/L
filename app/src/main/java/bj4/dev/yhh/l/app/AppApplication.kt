@@ -12,6 +12,7 @@ import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.repository.LotteryRepository
+import bj4.dev.yhh.tracker.TrackHelper
 import com.facebook.stetho.Stetho
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -28,6 +29,7 @@ class AppApplication : Application() {
         single { LotteryRepository(get()) }
         single { SharedPreferenceHelper(get()) }
         single { LogHelper(get()) }
+        single { TrackHelper(androidContext()) }
 
         viewModel { LargeTableViewModel(get(), get()) }
         viewModel { MainActivityViewModel(get()) }
