@@ -18,7 +18,11 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
         value = ArrayList()
     }
 
+    private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
+
     val rawData: LiveData<List<LotteryEntity>> = _rawData
+
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private var ltoType: Int = 0
 
@@ -31,6 +35,7 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                     .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _isLoading.value = true }
                     .subscribe(
                         { list ->
                             Timber.i("LtoHK item size: ${list.size}")
@@ -38,6 +43,9 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                         },
                         {
                             Timber.w(it, "failed")
+                        },
+                        {
+                            _isLoading.value = false
                         }
                     )
             }
@@ -46,6 +54,7 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                     .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _isLoading.value = true }
                     .subscribe(
                         { list ->
                             Timber.i("LtoBig item size: ${list.size}")
@@ -53,6 +62,9 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                         },
                         {
                             Timber.w(it, "failed")
+                        },
+                        {
+                            _isLoading.value = false
                         }
                     )
             }
@@ -61,6 +73,7 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                     .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _isLoading.value = true }
                     .subscribe(
                         { list ->
                             Timber.i("Lto item size: ${list.size}")
@@ -68,6 +81,9 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                         },
                         {
                             Timber.w(it, "failed")
+                        },
+                        {
+                            _isLoading.value = false
                         }
                     )
             }

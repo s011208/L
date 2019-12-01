@@ -71,6 +71,10 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
             headerAdapter.notifyDataSetChanged()
         })
 
+        fragmentViewModel.isLoading.observe(this, Observer {
+            progressBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
+        })
+
         header.layoutManager = LinearLayoutManager(requireContext())
         header.adapter = headerAdapter
 

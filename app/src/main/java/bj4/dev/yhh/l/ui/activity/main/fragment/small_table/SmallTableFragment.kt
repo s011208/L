@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
 import bj4.dev.yhh.repository.entity.LotteryEntity
+import kotlinx.android.synthetic.main.fragment_large_table.*
 import kotlinx.android.synthetic.main.fragment_large_table.recyclerView
 import kotlinx.android.synthetic.main.fragment_small_table.*
+import kotlinx.android.synthetic.main.fragment_small_table.progressBar
 import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class SmallTableFragment : Fragment(), MainActivityActions,
@@ -59,6 +61,10 @@ abstract class SmallTableFragment : Fragment(), MainActivityActions,
             adapter.itemList.addAll(list)
             adapter.diffValue = diffValue
             adapter.notifyDataSetChanged()
+        })
+
+        fragmentViewModel.isLoading.observe(this, Observer {
+            progressBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
         })
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

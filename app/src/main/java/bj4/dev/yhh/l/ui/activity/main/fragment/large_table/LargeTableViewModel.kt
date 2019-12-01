@@ -22,7 +22,11 @@ class LargeTableViewModel(
         value = Pair(ArrayList(), sharedPreferenceHelper.getSortingType())
     }
 
+    private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
+
     val rawData: LiveData<Pair<List<LotteryEntity>, Int>> = _rawData
+
+    val isLoading: LiveData<Boolean> = _isLoading
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -34,6 +38,7 @@ class LargeTableViewModel(
                 compositeDisposable += lotteryRepository.getLtoHK()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _isLoading.value = true }
                     .subscribe(
                         { list ->
                             Timber.i("LtoHK item size: ${list.size}")
@@ -41,6 +46,9 @@ class LargeTableViewModel(
                         },
                         {
                             Timber.w(it, "failed")
+                        },
+                        {
+                            _isLoading.value = false
                         }
                     )
             }
@@ -48,6 +56,7 @@ class LargeTableViewModel(
                 compositeDisposable += lotteryRepository.getLtoBig()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _isLoading.value = true }
                     .subscribe(
                         { list ->
                             Timber.i("LtoBig item size: ${list.size}")
@@ -55,6 +64,9 @@ class LargeTableViewModel(
                         },
                         {
                             Timber.w(it, "failed")
+                        },
+                        {
+                            _isLoading.value = false
                         }
                     )
             }
@@ -62,6 +74,7 @@ class LargeTableViewModel(
                 compositeDisposable += lotteryRepository.getLto()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _isLoading.value = true }
                     .subscribe(
                         { list ->
                             Timber.i("Lto item size: ${list.size}")
@@ -69,6 +82,9 @@ class LargeTableViewModel(
                         },
                         {
                             Timber.w(it, "failed")
+                        },
+                        {
+                            _isLoading.value = false
                         }
                     )
             }
