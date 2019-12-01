@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
@@ -75,6 +76,7 @@ dependencies {
 
     implementation Libs.firebase_analytics
     implementation Libs.firebase_remote_config
+    implementation Libs.firebase_crashlytics
 
     implementation project(path: ':repository')
     implementation project(path: ':job-schedulers')

@@ -23,6 +23,7 @@ private object Versions {
     const val jsoup = "1.12.1"
     const val firebase = "17.2.1"
     const val firebase_remote_config = "19.0.3"
+    const val crashlytics = "2.10.1"
 }
 
 object Libs {
@@ -72,4 +73,5 @@ object Libs {
 
     const val firebase_analytics = "com.google.firebase:firebase-analytics:${Versions.firebase}"
     const val firebase_remote_config = "com.google.firebase:firebase-config:${Versions.firebase_remote_config}"
+    const val firebase_crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
 }
