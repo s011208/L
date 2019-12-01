@@ -3,6 +3,7 @@ package bj4.dev.yhh.l.ui.activity.main.fragment.small_table
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.repository.LotteryType
 import bj4.dev.yhh.repository.entity.LotteryEntity
 import bj4.dev.yhh.repository.repository.LotteryRepository
@@ -20,26 +21,56 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
 
     private val _isLoading = MutableLiveData<Boolean>().apply { value = false }
 
+    private val _showInitHint = MutableLiveData<Boolean>().apply { value = false }
+
+    private val _updateLotteryService = MutableLiveData<String>()
+
     val rawData: LiveData<List<LotteryEntity>> = _rawData
 
     val isLoading: LiveData<Boolean> = _isLoading
+
+    val showInitHint: LiveData<Boolean> = _showInitHint
+
+    val updateLotteryService: LiveData<String> = _updateLotteryService
 
     private var ltoType: Int = 0
 
     private val compositeDisposable = CompositeDisposable()
 
+    fun requestUpdate() {
+        when (ltoType) {
+            LotteryType.LtoHK -> {
+                _updateLotteryService.value = UpdateLotteryIntentService.ACTION_UPDATE_LTO_HK
+            }
+            LotteryType.Lto -> {
+                _updateLotteryService.value = UpdateLotteryIntentService.ACTION_UPDATE_LTO
+            }
+            LotteryType.LtoBig -> {
+                _updateLotteryService.value = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
+            }
+            else -> {
+                throw IllegalArgumentException("wrong lto type: $ltoType")
+            }
+        }
+    }
+
     fun load() {
         when (ltoType) {
             LotteryType.LtoHK -> {
-                compositeDisposable += lotteryRepository.getLtoHK()
+                compositeDisposable += lotteryRepository.getLtoHKLiveData()
                     .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { _isLoading.value = true }
+                    .doOnSubscribe {
+                        _isLoading.value = true
+                        _showInitHint.value = false
+                    }
                     .subscribe(
                         { list ->
                             Timber.i("LtoHK item size: ${list.size}")
+                            _isLoading.value = false
                             _rawData.value = list
+                            _showInitHint.value = list.isEmpty()
                         },
                         {
                             Timber.w(it, "failed")
@@ -50,15 +81,20 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                     )
             }
             LotteryType.LtoBig -> {
-                compositeDisposable += lotteryRepository.getLtoBig()
+                compositeDisposable += lotteryRepository.getLtoBigLiveData()
                     .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { _isLoading.value = true }
+                    .doOnSubscribe {
+                        _isLoading.value = true
+                        _showInitHint.value = false
+                    }
                     .subscribe(
                         { list ->
                             Timber.i("LtoBig item size: ${list.size}")
+                            _isLoading.value = false
                             _rawData.value = list
+                            _showInitHint.value = list.isEmpty()
                         },
                         {
                             Timber.w(it, "failed")
@@ -69,15 +105,20 @@ class SmallTableViewModel(private val lotteryRepository: LotteryRepository) : Vi
                     )
             }
             LotteryType.Lto -> {
-                compositeDisposable += lotteryRepository.getLto()
+                compositeDisposable += lotteryRepository.getLtoLiveData()
                     .map { list -> return@map list.filter { !it.isSubTotal } }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { _isLoading.value = true }
+                    .doOnSubscribe {
+                        _isLoading.value = true
+                        _showInitHint.value = false
+                    }
                     .subscribe(
                         { list ->
                             Timber.i("Lto item size: ${list.size}")
+                            _isLoading.value = false
                             _rawData.value = list
+                            _showInitHint.value = list.isEmpty()
                         },
                         {
                             Timber.w(it, "failed")

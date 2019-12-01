@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 
 class LtoBigParser : LotteryParser {
     companion object {
-        private const val URL = "https://www.pilio.idv.tw/ltobig/list.asp?indexpage="
+        private const val URL = "https://www.pilio.idv.tw/ltobig/ServerB/list.asp?indexpage="
 
         private const val COLUMN_COUNT = 3
 

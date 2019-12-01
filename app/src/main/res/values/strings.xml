@@ -14,6 +14,8 @@
     <string name="large_table">Large Table</string>
     <string name="small_table">Small Table</string>
 
+    <string name="init_hint">"Data set is empty, click me to download data"</string>
+
     <string name="menu_lto_hk">Lto HK</string>
     <string name="menu_lto">Lto</string>
     <string name="menu_lto_big">Lto Big</string>

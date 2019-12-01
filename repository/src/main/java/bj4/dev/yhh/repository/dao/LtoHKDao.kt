@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import bj4.dev.yhh.repository.entity.LtoHKEntity
+import io.reactivex.Flowable
 import io.reactivex.Single
 
 @Dao
@@ -12,6 +13,9 @@ interface LtoHKDao {
 
     @Query("SELECT * FROM `LtoHKEntity` ORDER BY `timeStamp`")
     fun query(): Single<List<LtoHKEntity>>
+
+    @Query("SELECT * FROM `LtoHKEntity` ORDER BY `timeStamp`")
+    fun queryLiveData(): Flowable<List<LtoHKEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertReplace(items: LtoHKEntity): Long

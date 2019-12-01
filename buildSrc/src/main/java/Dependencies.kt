@@ -52,6 +52,7 @@ object Libs {
     const val room_runtime = "android.arch.persistence.room:runtime:${Versions.room}"
     const val room_compiler = "android.arch.persistence.room:compiler:${Versions.room}"
     const val room_rxjava2 = "android.arch.persistence.room:rxjava2:${Versions.room}"
+    const val room_rx_live_data = "android.arch.lifecycle:reactivestreams:${Versions.room}"
     const val rxjava2 = "io.reactivex.rxjava2:rxjava:${Versions.rxjava}"
     const val rxandroid = "io.reactivex.rxjava2:rxandroid:${Versions.rxandroid}"
     const val rxkotlin = "io.reactivex.rxjava2:rxkotlin:${Versions.rxkotlin}"

@@ -1,5 +1,6 @@
 package bj4.dev.yhh.l.ui.activity.main.fragment.large_table
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.entity.LotteryEntity
+import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_large_table.*
@@ -75,8 +78,30 @@ abstract class LargeTableFragment : Fragment(), MainActivityActions {
             progressBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
         })
 
+        fragmentViewModel.showScrollView.observe(this, Observer {
+            scrollView.visibility = if (it) View.VISIBLE else View.INVISIBLE
+        })
+
+        fragmentViewModel.showInitHint.observe(this, Observer {
+            initHint.visibility = if (it) View.VISIBLE else View.INVISIBLE
+        })
+
         header.layoutManager = LinearLayoutManager(requireContext())
         header.adapter = headerAdapter
+
+        compositeDisposable += initHint.clicks().subscribe {
+            fragmentViewModel.requestUpdate()
+        }
+
+        fragmentViewModel.updateLotteryService.observe(this, Observer { action ->
+            requireContext().startService(
+                Intent(
+                    requireContext(),
+                    UpdateLotteryIntentService::class.java
+                ).apply {
+                    this.action = action
+                })
+        })
 
         fragmentViewModel.load()
     }

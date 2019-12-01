@@ -1,5 +1,6 @@
 package bj4.dev.yhh.l.ui.activity.main.fragment.small_table
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,18 @@ import android.widget.CompoundButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
 import bj4.dev.yhh.repository.entity.LotteryEntity
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_large_table.*
-import kotlinx.android.synthetic.main.fragment_large_table.recyclerView
 import kotlinx.android.synthetic.main.fragment_small_table.*
+import kotlinx.android.synthetic.main.fragment_small_table.initHint
 import kotlinx.android.synthetic.main.fragment_small_table.progressBar
+import kotlinx.android.synthetic.main.fragment_small_table.recyclerView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 abstract class SmallTableFragment : Fragment(), MainActivityActions,
@@ -37,6 +43,8 @@ abstract class SmallTableFragment : Fragment(), MainActivityActions,
     private var diffNumber = 0
 
     private var list: List<LotteryEntity> = ArrayList()
+
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,6 +74,24 @@ abstract class SmallTableFragment : Fragment(), MainActivityActions,
         fragmentViewModel.isLoading.observe(this, Observer {
             progressBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
         })
+
+        fragmentViewModel.showInitHint.observe(this, Observer {
+            initHint.visibility = if (it) View.VISIBLE else View.INVISIBLE
+        })
+
+        fragmentViewModel.updateLotteryService.observe(this, Observer { action ->
+            requireContext().startService(
+                Intent(
+                    requireContext(),
+                    UpdateLotteryIntentService::class.java
+                ).apply {
+                    this.action = action
+                })
+        })
+
+        compositeDisposable += initHint.clicks().subscribe {
+            fragmentViewModel.requestUpdate()
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

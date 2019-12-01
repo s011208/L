@@ -110,7 +110,7 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
             }
             ACTION_UPDATE_LTO_BIG -> {
                 Timber.v("ACTION_UPDATE_LTO_BIG")
-                compositeDisposable += repository.getLtoHK().subscribe(
+                compositeDisposable += repository.getLtoBig().subscribe(
                     {},
                     {
                         logHelper.insert(
@@ -130,7 +130,7 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
             }
             ACTION_UPDATE_LTO -> {
                 Timber.v("ACTION_UPDATE_LTO")
-                compositeDisposable += repository.getLtoHK().subscribe(
+                compositeDisposable += repository.getLto().subscribe(
                     {},
                     {
                         logHelper.insert(

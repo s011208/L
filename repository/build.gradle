@@ -38,6 +38,7 @@ dependencies {
 
     implementation Libs.room_runtime
     kapt Libs.room_compiler
+    implementation Libs.room_rx_live_data
     implementation Libs.room_rxjava2
     implementation Libs.rxjava2
     implementation Libs.rxandroid

@@ -27,6 +27,10 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
 
     private val parserMap = SparseArray<LotteryParser>()
 
+    fun getLtoHKLiveData() = lotteryDatabaseHelper.database.getLtoHKDao().queryLiveData()
+    fun getLtoLiveData() = lotteryDatabaseHelper.database.getLtoDao().queryLiveData()
+    fun getLtoBigLiveData() = lotteryDatabaseHelper.database.getLtoBigDao().queryLiveData()
+
     fun getLto(): Observable<List<LtoEntity>> {
         val parser =
             if (parserMap.contains(LotteryType.Lto)) {
