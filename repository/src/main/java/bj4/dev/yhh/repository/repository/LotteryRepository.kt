@@ -16,6 +16,7 @@ import bj4.dev.yhh.repository.entity.LtoEntity
 import bj4.dev.yhh.repository.entity.LtoHKEntity
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.*
 import kotlin.Comparator
@@ -54,7 +55,8 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
             for (page in 1 until Int.MAX_VALUE) {
-                val data = parser.parseAsync(page).blockingGet()
+//                val data = parser.parseAsync(page).blockingGet()
+                val data = parser.parse(page)
                 if (data.isEmpty()) {
                     complete(emitter)
                     break
@@ -225,8 +227,10 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                 }
             }
 
-        return Observable.create<List<LtoHKEntity>> { emitter ->
+        Timber.v("getLtoHK")
 
+        return Observable.create<List<LtoHKEntity>> { emitter ->
+            Timber.v("getLtoHK Observable")
             val hasDoneResult =
                 lotteryDatabaseHelper.database.getResultDao().query(LotteryType.LtoHK)
             val hasDone = if (hasDoneResult.isEmpty()) {
@@ -243,7 +247,8 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
             for (page in 1 until Int.MAX_VALUE) {
-                val data = parser.parseAsync(page).blockingGet()
+//                val data = parser.parseAsync(page).blockingGet()
+                val data = parser.parse(page)
                 if (data.isEmpty()) {
                     complete(emitter)
                     break
@@ -410,7 +415,8 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
             for (page in 1 until Int.MAX_VALUE) {
-                val data = parser.parseAsync(page).blockingGet()
+//                val data = parser.parseAsync(page).blockingGet()
+                val data = parser.parse(page)
                 if (data.isEmpty()) {
                     complete(emitter)
                     break

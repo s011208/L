@@ -34,7 +34,6 @@ class LargeTableViewModel(
                 compositeDisposable += lotteryRepository.getLtoHK()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .map { return@map it.subList(0, it.size) }
                     .subscribe(
                         { list ->
                             Timber.i("LtoHK item size: ${list.size}")
