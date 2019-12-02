@@ -40,6 +40,7 @@ dependencies {
     kapt Libs.room_compiler
     implementation Libs.room_rx_live_data
     implementation Libs.room_rxjava2
+    implementation Libs.rxkotlin
     implementation Libs.rxjava2
     implementation Libs.rxandroid
     implementation Libs.gson

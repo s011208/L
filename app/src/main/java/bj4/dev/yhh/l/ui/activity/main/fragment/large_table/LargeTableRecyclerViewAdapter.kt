@@ -197,15 +197,6 @@ class LargeTableRecyclerViewAdapter(
 
     override fun getItemCount(): Int = if (isHeader) 1 else itemList.size
 
-    private fun getTimeStamp(entity: LotteryEntity): Long {
-        return when (lotteryType) {
-            LotteryType.LtoBig -> (entity as LtoBigEntity).timeStamp
-            LotteryType.Lto -> (entity as LtoEntity).timeStamp
-            LotteryType.LtoHK -> (entity as LtoHKEntity).timeStamp
-            else -> throw IllegalArgumentException("Unknown type")
-        }
-    }
-
     private fun isSubTotal(entity: LotteryEntity): Boolean {
         return when (lotteryType) {
             LotteryType.LtoBig -> (entity as LtoBigEntity).isSubTotal
@@ -293,8 +284,8 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text =
-                        if (isSubTotal(entity)) subTotalDateFormatter.format(getTimeStamp(entity))
-                        else dateFormatter.format(getTimeStamp(entity))
+                        if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
+                        else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
                 }
@@ -387,8 +378,8 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text =
-                        if (isSubTotal(entity)) subTotalDateFormatter.format(getTimeStamp(entity))
-                        else dateFormatter.format(getTimeStamp(entity))
+                        if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
+                        else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
                 }
@@ -489,8 +480,8 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text =
-                        if (isSubTotal(entity)) subTotalDateFormatter.format(getTimeStamp(entity))
-                        else dateFormatter.format(getTimeStamp(entity))
+                        if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
+                        else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
                 }

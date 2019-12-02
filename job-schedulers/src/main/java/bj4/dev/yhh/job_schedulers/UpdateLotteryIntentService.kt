@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.log.room.entity.UpdateServiceTimeEntity
+import bj4.dev.yhh.repository.LotteryType
 import bj4.dev.yhh.repository.repository.LotteryRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
@@ -90,28 +91,34 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
         when (intent.action) {
             ACTION_UPDATE_LTO_HK -> {
                 Timber.v("ACTION_UPDATE_LTO_HK")
-                compositeDisposable += repository.getLtoHK().subscribe(
-                    {},
-                    {
-                        logHelper.insert(
-                            UpdateServiceTimeEntity(
-                                message = "ACTION_UPDATE_LTO_HK failed, $it"
+                compositeDisposable += repository.parseLotteryData(LotteryType.LtoHK)
+                    .subscribe(
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_HK, page: $it")
+                        },
+                        {
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_HK failed, $it"
+                                )
                             )
-                        )
-                    },
-                    {
-                        logHelper.insert(
-                            UpdateServiceTimeEntity(
-                                message = "ACTION_UPDATE_LTO_HK complete"
+                        },
+                        {
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_HK complete"
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
             }
             ACTION_UPDATE_LTO_BIG -> {
                 Timber.v("ACTION_UPDATE_LTO_BIG")
-                compositeDisposable += repository.getLtoBig().subscribe(
-                    {},
+                compositeDisposable += repository.parseLotteryData(LotteryType.LtoBig)
+                    .subscribe(
+                    {
+                        Timber.v("ACTION_UPDATE_LTO_BIG, page: $it")
+                    },
                     {
                         logHelper.insert(
                             UpdateServiceTimeEntity(
@@ -130,8 +137,11 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
             }
             ACTION_UPDATE_LTO -> {
                 Timber.v("ACTION_UPDATE_LTO")
-                compositeDisposable += repository.getLto().subscribe(
-                    {},
+                compositeDisposable += repository.parseLotteryData(LotteryType.Lto)
+                    .subscribe(
+                    {
+                        Timber.v("ACTION_UPDATE_LTO, page: $it")
+                    },
                     {
                         logHelper.insert(
                             UpdateServiceTimeEntity(

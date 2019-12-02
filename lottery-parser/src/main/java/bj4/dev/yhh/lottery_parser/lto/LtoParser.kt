@@ -21,22 +21,10 @@ class LtoParser : LotteryParser {
     }
 
     private val dateFormat = SimpleDateFormat(DATE_FORMATTER, Locale.getDefault())
-    override fun parseAsync(page: Int): Single<List<LotteryRawData>> = Single.create { emitter ->
-        FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener {
-            val url =
-                if (it.isSuccessful) {
-                    FirebaseRemoteConfig.getInstance().getString("url_lto")
-                } else {
-                    URL
-                }
-            Timber.v("parseAsync url: $url")
-            try {
-                emitter.onSuccess(parseInternal(url, page))
-            } catch (e: Exception) {
-                emitter.onError(e)
-            }
+    override fun parseAsync(page: Int): Single<List<LotteryRawData>> = getUrl()
+        .map { url ->
+            return@map parseInternal(url, page)
         }
-    }
 
     private fun parseInternal(url: String, page: Int): List<LotteryRawData> {
         require(page > 0) { "page should >= 1" }
@@ -75,7 +63,31 @@ class LtoParser : LotteryParser {
     }
 
     override fun parse(page: Int): List<LotteryRawData> {
-        return parseInternal(URL, page)
+        return parseInternal(getDefaultUrl(), page)
+    }
+
+    override fun parseWithUrl(url: String, page: Int): List<LotteryRawData> {
+        return parseInternal(url, page)
+    }
+
+    override fun getDefaultUrl(): String = URL
+
+    override fun getUrl(): Single<String> {
+        return Single.create { emitter ->
+            FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener {
+                try {
+                    emitter.onSuccess(
+                        if (it.isSuccessful) {
+                            FirebaseRemoteConfig.getInstance().getString("url_lto")
+                        } else {
+                            URL
+                        }
+                    )
+                } catch (e: Exception) {
+                    emitter.onError(e)
+                }
+            }
+        }
     }
 
     private fun dateConverter(date: String): Long {

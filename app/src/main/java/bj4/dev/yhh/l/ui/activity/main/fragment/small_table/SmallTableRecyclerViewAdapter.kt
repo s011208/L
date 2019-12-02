@@ -25,21 +25,6 @@ class SmallTableRecyclerViewAdapter(@LotteryType private val lotteryType: Int) :
     val itemList = ArrayList<LotteryEntity>()
     var diffValue: Int = 0
 
-    private fun getTimeStamp(entity: LotteryEntity, lotteryType: Int): Long {
-        return when (lotteryType) {
-            LotteryType.LtoHK -> {
-                (entity as LtoHKEntity).timeStamp
-            }
-            LotteryType.Lto -> {
-                (entity as LtoEntity).timeStamp
-            }
-            LotteryType.LtoBig -> {
-                (entity as LtoBigEntity).timeStamp
-            }
-            else -> throw IllegalArgumentException("unknown type")
-        }
-    }
-
     private fun getColumn1Max(): Int = when (lotteryType) {
         LotteryType.LtoBig -> Constants.LTO_BIG_MAX
         LotteryType.Lto -> Constants.LTO_COLUMN1_MAX
@@ -130,7 +115,7 @@ class SmallTableRecyclerViewAdapter(@LotteryType private val lotteryType: Int) :
         val diffEntity = if (position == 0) null else itemList[position - 1]
 
         holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
-            textView.text = dateFormatter.format(getTimeStamp(entity, lotteryType))
+            textView.text = dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
             textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
         }

@@ -9,13 +9,13 @@ import androidx.preference.PreferenceFragmentCompat
 import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.log.LogActivity
-import bj4.dev.yhh.l.ui.activity.main.fragment.large_table.LargeTableViewModel
 import bj4.dev.yhh.repository.repository.LotteryRepository
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainSettingsFragment : PreferenceFragmentCompat() {
@@ -25,16 +25,15 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
 
         private const val KEY_RESET_ALL_DATA = "key_reset_all_data"
         private const val KEY_UPDATE_ALL_DATA = "key_update_all_data"
+        private const val KET_CLEAR_ALL_DATA = "key_clear_all_data"
     }
 
     val repository: LotteryRepository by inject()
 
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.settings_main)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -65,7 +64,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                         UpdateLotteryIntentService::class.java
                     )
                 )
-                Completable.fromCallable {
+                compositeDisposable += Completable.fromCallable {
                     repository.nukeLto()
                     repository.nukeLtoBig()
                     repository.nukeLtoHK()
@@ -79,7 +78,29 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                         {
                             Toast.makeText(
                                 requireContext(),
-                                R.string.settings_reset_all_data_toast,
+                                R.string.settings_clear_all_data_toast,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        },
+                        {
+                            Timber.w(it, "failed to nuke table")
+                        }
+                    )
+                true
+            }
+            KET_CLEAR_ALL_DATA -> {
+                Completable.fromCallable {
+                    repository.nukeLto()
+                    repository.nukeLtoBig()
+                    repository.nukeLtoHK()
+                }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                        {
+                            Toast.makeText(
+                                requireContext(),
+                                R.string.settings_clear_all_data_toast,
                                 Toast.LENGTH_LONG
                             ).show()
                         },

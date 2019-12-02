@@ -2,10 +2,10 @@ package bj4.dev.yhh.lottery_parser.lto_hk
 
 import bj4.dev.yhh.lottery_parser.LotteryParser
 import bj4.dev.yhh.lottery_parser.LotteryRawData
+import bj4.dev.yhh.lottery_parser.lto.LtoParser
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import io.reactivex.Single
 import org.jsoup.Jsoup
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 
 class LtoHKParser : LotteryParser {
     companion object {
-        private const val URL = "https://www.pilio.idv.tw/ltohk/ServerF/list.asp?indexpage="
+        private const val URL = "https://www.pilio.idv.tw/ltohk/list.asp?indexpage="
 
         private const val COLUMN_COUNT = 4
 
@@ -22,22 +22,10 @@ class LtoHKParser : LotteryParser {
 
     private val dateFormat = SimpleDateFormat(DATE_FORMATTER, Locale.getDefault())
 
-    override fun parseAsync(page: Int): Single<List<LotteryRawData>> = Single.create { emitter ->
-        FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener {
-            val url =
-                if (it.isSuccessful) {
-                    FirebaseRemoteConfig.getInstance().getString("url_lto_hk")
-                } else {
-                    URL
-                }
-            Timber.v("parseAsync url: $url")
-            try {
-                emitter.onSuccess(parseInternal(url, page))
-            } catch (e: Exception) {
-                emitter.onError(e)
-            }
+    override fun parseAsync(page: Int): Single<List<LotteryRawData>> = getUrl()
+        .map { url ->
+            return@map parseInternal(url, page)
         }
-    }
 
     private fun parseInternal(url: String, page: Int): List<LotteryRawData> {
         require(page > 0) { "page should >= 1" }
@@ -74,8 +62,32 @@ class LtoHKParser : LotteryParser {
         return rtn
     }
 
+    override fun parseWithUrl(url: String, page: Int): List<LotteryRawData> {
+        return parseInternal(url, page)
+    }
+
+    override fun getDefaultUrl(): String = URL
+
     override fun parse(page: Int): List<LotteryRawData> {
-        return parseInternal(URL, page)
+        return parseInternal(getDefaultUrl(), page)
+    }
+
+    override fun getUrl(): Single<String> {
+        return Single.create { emitter ->
+            FirebaseRemoteConfig.getInstance().fetchAndActivate().addOnCompleteListener {
+                try {
+                    emitter.onSuccess(
+                        if (it.isSuccessful) {
+                            FirebaseRemoteConfig.getInstance().getString("url_lto_hk")
+                        } else {
+                            URL
+                        }
+                    )
+                } catch (e: Exception) {
+                    emitter.onError(e)
+                }
+            }
+        }
     }
 
     private fun dateConverter(date: String): Long {
