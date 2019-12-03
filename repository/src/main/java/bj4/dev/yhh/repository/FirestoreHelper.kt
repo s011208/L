@@ -9,7 +9,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import timber.log.Timber
 
-class FirestoreHelper() {
+class FirestoreHelper {
 
     companion object {
         const val COLLECTION_LTO = "lto"

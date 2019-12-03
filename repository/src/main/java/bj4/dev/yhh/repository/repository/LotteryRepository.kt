@@ -17,7 +17,6 @@ import bj4.dev.yhh.repository.services.FirestoreService
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
@@ -30,8 +29,6 @@ class LotteryRepository(
 ) {
 
     private val parserMap = SparseArray<LotteryParser>()
-
-    private val compositeDisposable = CompositeDisposable()
 
     fun getLtoHKLiveData() = lotteryDatabaseHelper.database.getLtoHKDao().queryLiveData()
     fun getLtoLiveData() = lotteryDatabaseHelper.database.getLtoDao().queryLiveData()
