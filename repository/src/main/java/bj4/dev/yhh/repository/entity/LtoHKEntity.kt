@@ -8,13 +8,13 @@ import bj4.dev.yhh.repository.CellData
 @Entity
 data class LtoHKEntity(
     @field:[PrimaryKey]
-    val timeStamp: Long,
+    var timeStamp: Long = 0,
 
-    val rawNormalNumbers: List<Int>,
+    var rawNormalNumbers: List<Int> = ArrayList(),
 
-    val rawSpecialNumbers: List<Int>,
+    var rawSpecialNumbers: List<Int> = ArrayList(),
 
-    val column1: List<CellData>,
+    var column1: List<CellData> = ArrayList(),
 
-    val isSubTotal: Boolean = false
+    var isSubTotal: Boolean = false
 ): LotteryEntity()

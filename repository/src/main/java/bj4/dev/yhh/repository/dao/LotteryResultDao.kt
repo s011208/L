@@ -14,4 +14,7 @@ interface LotteryResultDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: LotteryResultEntity): Long
+
+    @Query("DELETE FROM `LotteryResultEntity`")
+    fun nukeTable()
 }

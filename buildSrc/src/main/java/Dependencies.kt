@@ -24,6 +24,8 @@ private object Versions {
     const val firebase = "17.2.1"
     const val firebase_remote_config = "19.0.3"
     const val crashlytics = "2.10.1"
+    const val firebase_realtime_database = "19.2.0"
+    const val firebase_firestore = "21.3.0"
 }
 
 object Libs {
@@ -74,4 +76,6 @@ object Libs {
     const val firebase_analytics = "com.google.firebase:firebase-analytics:${Versions.firebase}"
     const val firebase_remote_config = "com.google.firebase:firebase-config:${Versions.firebase_remote_config}"
     const val firebase_crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
+    const val firebase_realtime_database = "com.google.firebase:firebase-database:${Versions.firebase_realtime_database}"
+    const val firebase_firestore = "com.google.firebase:firebase-firestore:${Versions.firebase_firestore}"
 }

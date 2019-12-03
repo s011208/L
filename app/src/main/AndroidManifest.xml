@@ -27,6 +27,7 @@
         </activity>
 
         <service android:name="bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService" />
+        <service android:name="bj4.dev.yhh.repository.services.FirestoreService" />
         <service
             android:name="bj4.dev.yhh.job_schedulers.UpdateLotteryJobSchedulerService"
             android:exported="true"

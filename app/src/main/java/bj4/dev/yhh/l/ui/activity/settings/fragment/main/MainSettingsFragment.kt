@@ -65,9 +65,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                     )
                 )
                 compositeDisposable += Completable.fromCallable {
-                    repository.nukeLto()
-                    repository.nukeLtoBig()
-                    repository.nukeLtoHK()
+                    nukeAllTables()
                 }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -90,9 +88,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
             }
             KET_CLEAR_ALL_DATA -> {
                 Completable.fromCallable {
-                    repository.nukeLto()
-                    repository.nukeLtoBig()
-                    repository.nukeLtoHK()
+                    nukeAllTables()
                 }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -149,5 +145,12 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                 action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
             }
         )
+    }
+
+    private fun nukeAllTables() {
+        repository.nukeLto()
+        repository.nukeLtoBig()
+        repository.nukeLtoHK()
+        repository.nukeResult()
     }
 }

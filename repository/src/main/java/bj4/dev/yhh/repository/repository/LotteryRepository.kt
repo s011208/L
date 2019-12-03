@@ -1,5 +1,6 @@
 package bj4.dev.yhh.repository.repository
 
+import android.content.Context
 import android.util.SparseArray
 import androidx.core.util.contains
 import bj4.dev.yhh.lottery_parser.LotteryParser
@@ -8,18 +9,25 @@ import bj4.dev.yhh.lottery_parser.lto_big.LtoBigParser
 import bj4.dev.yhh.lottery_parser.lto_hk.LtoHKParser
 import bj4.dev.yhh.repository.CellData
 import bj4.dev.yhh.repository.Constants
+import bj4.dev.yhh.repository.FirestoreHelper
 import bj4.dev.yhh.repository.LotteryType
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.entity.*
+import bj4.dev.yhh.repository.services.FirestoreService
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper) {
+class LotteryRepository(
+    private val lotteryDatabaseHelper: LotteryDatabaseHelper,
+    private val context: Context,
+    private val firestoreHelper: FirestoreHelper
+) {
 
     private val parserMap = SparseArray<LotteryParser>()
 
@@ -29,9 +37,28 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
     fun getLtoLiveData() = lotteryDatabaseHelper.database.getLtoDao().queryLiveData()
     fun getLtoBigLiveData() = lotteryDatabaseHelper.database.getLtoBigDao().queryLiveData()
 
+    fun getLtoHK() = lotteryDatabaseHelper.database.getLtoHKDao().query()
+    fun getLto() = lotteryDatabaseHelper.database.getLtoDao().query()
+    fun getLtoBig() = lotteryDatabaseHelper.database.getLtoBigDao().query()
+
     fun nukeLtoHK() = lotteryDatabaseHelper.database.getLtoHKDao().nukeTable()
     fun nukeLto() = lotteryDatabaseHelper.database.getLtoDao().nukeTable()
     fun nukeLtoBig() = lotteryDatabaseHelper.database.getLtoBigDao().nukeTable()
+    fun nukeResult() = lotteryDatabaseHelper.database.getResultDao().nukeTable()
+
+    private fun getLotteryDataSingle(@LotteryType lotteryType: Int): Single<List<LotteryEntity>> =
+        when (lotteryType) {
+            LotteryType.LtoBig -> getLtoBig().map {
+                return@map ArrayList<LotteryEntity>(it)
+            }
+            LotteryType.Lto -> getLto().map {
+                return@map ArrayList<LotteryEntity>(it)
+            }
+            LotteryType.LtoHK -> getLtoHK().map {
+                return@map ArrayList<LotteryEntity>(it)
+            }
+            else -> throw IllegalArgumentException("Wrong lottery type")
+        }
 
     fun parseLotteryData(@LotteryType lotteryType: Int): Observable<Int> {
         val parser =
@@ -59,6 +86,35 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             }
 
         return Observable.create<Int> { emitter ->
+
+            val allData = HashSet<LotteryEntity>()
+            allData.addAll(getLotteryDataSingle(lotteryType).blockingGet())
+
+            if (allData.isEmpty()) {
+                val list = firestoreHelper.read(lotteryType).blockingGet()
+                Timber.v("read from cloud, size: ${list.size}")
+                if (list.isNotEmpty()) {
+                    when (lotteryType) {
+                        LotteryType.LtoBig -> {
+                            lotteryDatabaseHelper.database.getLtoBigDao()
+                                .insertAll(list.map { it as LtoBigEntity })
+                        }
+                        LotteryType.Lto -> {
+                            lotteryDatabaseHelper.database.getLtoDao()
+                                .insertAll(list.map { it as LtoEntity })
+                        }
+                        LotteryType.LtoHK -> {
+                            lotteryDatabaseHelper.database.getLtoHKDao()
+                                .insertAll(list.map { it as LtoHKEntity })
+                        }
+                        else -> throw IllegalArgumentException("Wrong lottery type")
+                    }
+                    allData.addAll(list)
+                    lotteryDatabaseHelper.database.getResultDao()
+                        .insert(LotteryResultEntity(true, lotteryType))
+                }
+            }
+
             val hasDoneResult =
                 lotteryDatabaseHelper.database.getResultDao().query(lotteryType)
             val hasDone = if (hasDoneResult.isEmpty()) {
@@ -66,8 +122,6 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
             } else {
                 hasDoneResult[0].done
             }
-
-            val allData = HashSet<LotteryEntity>()
 
             fun complete(emitter: ObservableEmitter<Int>) {
                 emitter.onComplete()
@@ -338,6 +392,10 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                                             ) == newEntity.timeStamp
                                         }
                                         allData.add(newEntity)
+                                        FirestoreService.write(
+                                            context,
+                                            lotteryType,
+                                            ArrayList<LotteryEntity>().apply { add(newEntity) })
                                     }
                                 )
                             }
@@ -376,6 +434,10 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                                             ) == newEntity.timeStamp
                                         }
                                         allData.add(newEntity)
+                                        FirestoreService.write(
+                                            context,
+                                            lotteryType,
+                                            ArrayList<LotteryEntity>().apply { add(newEntity) })
                                     }
                                 )
                             }
@@ -415,6 +477,10 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                                             ) == newEntity.timeStamp
                                         }
                                         allData.add(newEntity)
+                                        FirestoreService.write(
+                                            context,
+                                            lotteryType,
+                                            ArrayList<LotteryEntity>().apply { add(newEntity) })
                                     }
                                 )
                             }
@@ -435,6 +501,8 @@ class LotteryRepository(private val lotteryDatabaseHelper: LotteryDatabaseHelper
                     }
                     previousCalendar.timeInMillis = data[data.size - 1].date
                     update(previousCalendar)
+
+                    FirestoreService.write(context, lotteryType, mapData)
                 }
             }
         }

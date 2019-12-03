@@ -45,4 +45,10 @@ dependencies {
     implementation Libs.rxandroid
     implementation Libs.gson
     implementation Libs.timber
+
+    implementation Libs.firebase_analytics
+    implementation Libs.firebase_firestore
+
+    implementation Libs.koin
+    implementation Libs.koin_scope
 }

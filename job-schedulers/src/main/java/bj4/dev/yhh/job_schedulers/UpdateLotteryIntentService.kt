@@ -104,6 +104,7 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                             )
                         },
                         {
+                            Timber.v("ACTION_UPDATE_LTO_HK, complete")
                             logHelper.insert(
                                 UpdateServiceTimeEntity(
                                     message = "ACTION_UPDATE_LTO_HK complete"
@@ -127,6 +128,7 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                         )
                     },
                     {
+                        Timber.v("ACTION_UPDATE_LTO_BIG, complete")
                         logHelper.insert(
                             UpdateServiceTimeEntity(
                                 message = "ACTION_UPDATE_LTO_BIG complete"
@@ -150,6 +152,7 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                         )
                     },
                     {
+                        Timber.v("ACTION_UPDATE_LTO, complete")
                         logHelper.insert(
                             UpdateServiceTimeEntity(
                                 message = "ACTION_UPDATE_LTO complete"

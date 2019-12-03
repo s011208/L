@@ -1,6 +1,7 @@
 package bj4.dev.yhh.l.app
 
 import android.app.Application
+import android.content.Intent
 import bj4.dev.yhh.job_schedulers.UpdateLotteryJobSchedulerService
 import bj4.dev.yhh.l.BuildConfig
 import bj4.dev.yhh.l.R
@@ -10,8 +11,10 @@ import bj4.dev.yhh.l.ui.activity.main.fragment.large_table.LargeTableViewModel
 import bj4.dev.yhh.l.ui.activity.main.fragment.small_table.SmallTableViewModel
 import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.log.LogHelper
+import bj4.dev.yhh.repository.FirestoreHelper
 import bj4.dev.yhh.repository.database.LotteryDatabaseHelper
 import bj4.dev.yhh.repository.repository.LotteryRepository
+import bj4.dev.yhh.repository.services.FirestoreService
 import bj4.dev.yhh.tracker.TrackHelper
 import com.facebook.stetho.Stetho
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -26,10 +29,11 @@ class AppApplication : Application() {
 
     private val appModule = module {
         single { LotteryDatabaseHelper(androidContext()) }
-        single { LotteryRepository(get()) }
+        single { LotteryRepository(get(), androidContext(), get()) }
         single { SharedPreferenceHelper(get()) }
         single { LogHelper(get()) }
         single { TrackHelper(androidContext()) }
+        single { FirestoreHelper() }
 
         viewModel { LargeTableViewModel(get(), get()) }
         viewModel { MainActivityViewModel(get()) }
