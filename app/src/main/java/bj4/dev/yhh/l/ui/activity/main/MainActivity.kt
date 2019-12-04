@@ -21,8 +21,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val REQUEST_CODE_SETTINGS = 10001
+    }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -88,10 +93,23 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Timber.v("requestCode: $requestCode, resultCode: $resultCode")
+        when (requestCode) {
+            REQUEST_CODE_SETTINGS -> {
+                getCurrentFragment()?.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
+                startActivityForResult(
+                    Intent(this, SettingsActivity::class.java),
+                    REQUEST_CODE_SETTINGS
+                )
                 true
             }
             R.id.action_sorting -> {

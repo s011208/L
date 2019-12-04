@@ -38,6 +38,10 @@ class LargeTableRecyclerViewAdapter(
     var sortingType = SharedPreferenceHelper.DISPLAY_TYPE_ORDER
     var selectedIndex = -1
 
+    var textSize: Float = 0f
+    var cellWidth: Int = 0
+    var cellDateWidth: Int = 0
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -53,26 +57,23 @@ class LargeTableRecyclerViewAdapter(
             )
             val container = view.findViewById<LinearLayout>(R.id.container)
             val date =
-                LayoutInflater.from(container.context)
-                    .inflate(R.layout.epoxy_large_cell_date, null, false)
+                (LayoutInflater.from(container.context)
+                    .inflate(R.layout.epoxy_large_cell_date, null, false) as TextView)
                     .also {
                         it.id = R.id.epoxy_cell_date
                     }
             container.addView(
                 date,
                 LinearLayout.LayoutParams(
-                    parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_large_table_date_cell_width),
+                    cellDateWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
             )
 
-            val cellWidth =
-                parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_large_table_cell_width)
-
             for (index in Constants.LTO_HK_MIN..Constants.LTO_HK_MAX) {
                 val cell =
-                    LayoutInflater.from(container.context)
-                        .inflate(R.layout.epoxy_large_cell, null, false)
+                    (LayoutInflater.from(container.context)
+                        .inflate(R.layout.epoxy_large_cell, null, false) as TextView)
                         .also {
                             it.id = index
                         }
@@ -106,13 +107,10 @@ class LargeTableRecyclerViewAdapter(
             container.addView(
                 date,
                 LinearLayout.LayoutParams(
-                    parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_large_table_date_cell_width),
+                    cellDateWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
             )
-
-            val cellWidth =
-                parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_large_table_cell_width)
 
             for (index in Constants.LTO_BIG_MIN..Constants.LTO_BIG_MAX) {
                 val cell =
@@ -150,13 +148,10 @@ class LargeTableRecyclerViewAdapter(
             container.addView(
                 date,
                 LinearLayout.LayoutParams(
-                    parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_large_table_date_cell_width),
+                    cellDateWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
             )
-
-            val cellWidth =
-                parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_large_table_cell_width)
 
             for (index in Constants.LTO_COLUMN1_MIN..Constants.LTO_COLUMN1_MAX) {
                 val cell =
@@ -262,12 +257,16 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text = ""
+                    textView.textSize = textSize
+                    (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
                 }
                 for (index in Constants.LTO_HK_MIN..Constants.LTO_HK_MAX) {
                     holder.container.findViewById<TextView>(index).also { textView ->
                         val text = getIndexBySortingType(index, sortingType)
                         textView.text = String.format("%02d", text)
                         textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
+                        textView.textSize = textSize
+                        (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                     }
                 }
             }
@@ -286,7 +285,8 @@ class LargeTableRecyclerViewAdapter(
                     textView.text =
                         if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
                         else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
-
+                    textView.textSize = textSize
+                    (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
                 }
                 for (index in Constants.LTO_HK_MIN..Constants.LTO_HK_MAX) {
@@ -331,6 +331,8 @@ class LargeTableRecyclerViewAdapter(
                         }
                         textView.setTextColor(textView.context.resources.getColor(textColor))
                         textView.setBackgroundResource(getCellBackground(item, sortingType))
+                        textView.textSize = textSize
+                        (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                     }
                 }
             }
@@ -356,12 +358,16 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text = ""
+                    textView.textSize = textSize
+                    (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
                 }
                 for (index in Constants.LTO_BIG_MIN..Constants.LTO_BIG_MAX) {
                     holder.container.findViewById<TextView>(index).also { textView ->
                         val text = getIndexBySortingType(index, sortingType)
                         textView.text = String.format("%02d", text)
                         textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
+                        textView.textSize = textSize
+                        (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                     }
                 }
             }
@@ -382,6 +388,8 @@ class LargeTableRecyclerViewAdapter(
                         else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
+                    textView.textSize = textSize
+                    (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
                 }
                 for (index in Constants.LTO_BIG_MIN..Constants.LTO_BIG_MAX) {
                     val item =
@@ -425,6 +433,8 @@ class LargeTableRecyclerViewAdapter(
                         }
                         textView.setTextColor(textView.context.resources.getColor(textColor))
                         textView.setBackgroundResource(getCellBackground(item, sortingType))
+                        textView.textSize = textSize
+                        (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                     }
                 }
             }
@@ -450,12 +460,16 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text = ""
+                    textView.textSize = textSize
+                    (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
                 }
                 for (index in Constants.LTO_COLUMN1_MIN..Constants.LTO_COLUMN1_MAX) {
                     holder.container.findViewById<TextView>(index).also { textView ->
                         val text = getIndexBySortingType(index, sortingType)
                         textView.text = String.format("%02d", text)
                         textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
+                        textView.textSize = textSize
+                        (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                     }
                 }
                 // do not need to sort column 2
@@ -464,6 +478,8 @@ class LargeTableRecyclerViewAdapter(
                         .also { textView ->
                             textView.text = String.format("%02d", index)
                             textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
+                            textView.textSize = textSize
+                            (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                         }
                 }
             }
@@ -484,6 +500,8 @@ class LargeTableRecyclerViewAdapter(
                         else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
+                    textView.textSize = textSize
+                    (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
                 }
 
                 fun getCellBackground(item: CellData, sortingType: Int): Int {
@@ -528,6 +546,8 @@ class LargeTableRecyclerViewAdapter(
                         }
                         textView.setTextColor(textView.context.resources.getColor(textColor))
                         textView.setBackgroundResource(getCellBackground(item, sortingType))
+                        textView.textSize = textSize
+                        (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                     }
                 }
 
@@ -553,6 +573,8 @@ class LargeTableRecyclerViewAdapter(
                             }
                             textView.setTextColor(textView.context.resources.getColor(textColor))
                             textView.setBackgroundResource(getCellBackground(item, sortingType))
+                            textView.textSize = textSize
+                            (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
                         }
                 }
             }

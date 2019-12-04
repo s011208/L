@@ -15,6 +15,23 @@
             android:title="@string/settings_preference_clear_all_data_title" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/settings_category_ui_title">
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/preference_table_text_size_list"
+            android:entryValues="@array/preference_table_text_size_option"
+            android:key="key_large_table_text_size"
+            android:title="@string/settings_preference_large_table_title" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/preference_table_text_size_list"
+            android:entryValues="@array/preference_table_text_size_option"
+            android:key="key_small_table_text_size"
+            android:title="@string/settings_preference_small_table_title" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_category_log_title">
         <Preference
             android:key="key_job_service_log"

@@ -25,6 +25,10 @@ class SmallTableRecyclerViewAdapter(@LotteryType private val lotteryType: Int) :
     val itemList = ArrayList<LotteryEntity>()
     var diffValue: Int = 0
 
+    var textSize: Float = 0f
+    var cellWidth: Int = 0
+    var cellDateWidth: Int = 0
+
     private fun getColumn1Max(): Int = when (lotteryType) {
         LotteryType.LtoBig -> Constants.LTO_BIG_MAX
         LotteryType.Lto -> Constants.LTO_COLUMN1_MAX
@@ -83,13 +87,10 @@ class SmallTableRecyclerViewAdapter(@LotteryType private val lotteryType: Int) :
         container.addView(
             date,
             LinearLayout.LayoutParams(
-                parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_small_table_date_cell_width),
+                cellDateWidth,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
         )
-
-        val cellWidth =
-            parent.context.resources.getDimensionPixelSize(R.dimen.epoxy_small_table_cell_width)
 
         val column1Count = getColumn1Count()
 
@@ -116,7 +117,8 @@ class SmallTableRecyclerViewAdapter(@LotteryType private val lotteryType: Int) :
 
         holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
             textView.text = dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
-
+            (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
+            textView.textSize = textSize
             textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
         }
 
@@ -148,6 +150,8 @@ class SmallTableRecyclerViewAdapter(@LotteryType private val lotteryType: Int) :
                     ) textView.resources.getColor(R.color.large_table_number_text_foreground)
                     else textView.resources.getColor(R.color.large_table_special_number_text_foreground)
                 )
+                textView.textSize = textSize
+                (textView.layoutParams as LinearLayout.LayoutParams).width = cellWidth
             }
         }
     }

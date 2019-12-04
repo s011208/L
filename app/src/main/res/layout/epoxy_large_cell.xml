@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:autoSizePresetSizes="@array/large_table_cell_text_sizes"
     android:autoSizeTextType="uniform"
     android:background="@drawable/bg_cell"
     android:gravity="center"

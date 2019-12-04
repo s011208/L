@@ -1,28 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="large_table_cell_text_sizes">
-        <item>9sp</item>
-        <item>10sp</item>
-        <item>11sp</item>
-        <item>12sp</item>
-        <item>13sp</item>
-        <item>14sp</item>
-        <item>16sp</item>
-    </array>
-
-    <array name="small_table_cell_text_sizes">
-        <item>11sp</item>
-        <item>12sp</item>
-        <item>13sp</item>
-        <item>14sp</item>
-        <item>15sp</item>
-        <item>16sp</item>
-        <item>18sp</item>
-    </array>
-
     <string-array name="sorting_array">
         <item>Order</item>
         <item>Combination</item>
         <item>End</item>
     </string-array>
+
+    <string-array name="preference_table_text_size_list">
+        <item>Extra small</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra large</item>
+    </string-array>
+
+    <string-array name="preference_table_text_size_option">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <integer-array name="preference_large_table_text_size">
+        <item>5</item>
+        <item>6</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+    </integer-array>
+
+    <integer-array name="preference_large_table_cell_width">
+        <item>18</item>
+        <item>20</item>
+        <item>24</item>
+        <item>30</item>
+        <item>36</item>
+    </integer-array>
+
+    <integer-array name="preference_large_table_cell_date_width">
+        <item>60</item>
+        <item>75</item>
+        <item>95</item>
+        <item>120</item>
+        <item>140</item>
+    </integer-array>
+
+    <integer-array name="preference_small_table_text_size">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+    </integer-array>
+
+    <integer-array name="preference_small_table_cell_width">
+        <item>32</item>
+        <item>38</item>
+        <item>44</item>
+        <item>48</item>
+        <item>52</item>
+    </integer-array>
+
+    <integer-array name="preference_small_table_cell_date_width">
+        <item>120</item>
+        <item>140</item>
+        <item>160</item>
+        <item>180</item>
+        <item>220</item>
+    </integer-array>
 </resources>

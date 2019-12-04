@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
@@ -18,6 +17,7 @@ import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import kotlinx.android.synthetic.main.fragment_large_table.*
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -27,7 +27,8 @@ abstract class LargeTableFragment : TrackableFragment(), MainActivityActions {
         private const val ARGUMENT_LTO_TYPE = "lto_type"
     }
 
-    val fragmentViewModel: LargeTableViewModel by viewModel()
+    private val fragmentViewModel: LargeTableViewModel by viewModel()
+    private val sharedPreferenceHelper: SharedPreferenceHelper by inject()
 
     private lateinit var recyclerViewAdapter: LargeTableRecyclerViewAdapter
     private lateinit var headerAdapter: LargeTableRecyclerViewAdapter
@@ -55,6 +56,8 @@ abstract class LargeTableFragment : TrackableFragment(), MainActivityActions {
                 headerAdapter = LargeTableRecyclerViewAdapter(it, true)
             }
         )
+
+        updateTextSize()
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = recyclerViewAdapter
@@ -130,5 +133,33 @@ abstract class LargeTableFragment : TrackableFragment(), MainActivityActions {
 
     override fun onMoveToTop() {
         recyclerView.scrollToPosition(0)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Timber.v("onActivityResult, requestCode: $requestCode, resultCode: $resultCode")
+        updateTextSize(true)
+    }
+
+    private fun updateTextSize(update: Boolean = false) {
+        sharedPreferenceHelper.getLargeTableTextSize().also { textSize ->
+            recyclerViewAdapter.textSize = textSize
+            headerAdapter.textSize = textSize
+        }
+
+        sharedPreferenceHelper.getLargeTableCellWidth().also { cellWidth ->
+            recyclerViewAdapter.cellWidth = cellWidth
+            headerAdapter.cellWidth = cellWidth
+        }
+
+        sharedPreferenceHelper.getLargeTableCellDateWidth().also { cellDateWidth ->
+            recyclerViewAdapter.cellDateWidth = cellDateWidth
+            headerAdapter.cellDateWidth = cellDateWidth
+        }
+
+        if (update) {
+            recyclerViewAdapter.notifyDataSetChanged()
+            headerAdapter.notifyDataSetChanged()
+        }
     }
 }

@@ -3,12 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:autoSizePresetSizes="@array/small_table_cell_text_sizes"
     android:autoSizeTextType="uniform"
     android:background="@drawable/bg_cell"
     android:gravity="center"
     android:lines="1"
     android:padding="3dp"
     android:textColor="@color/large_table_date_text_foreground"
-    android:textSize="@dimen/epoxy_small_table_text_size"
     tools:targetApi="o" />

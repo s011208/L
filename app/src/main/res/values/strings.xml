@@ -32,4 +32,7 @@
     <string name="settings_preference_update_all_data_title">Update all data</string>
     <string name="settings_clear_all_data_toast">Clear all data</string>
     <string name="settings_preference_clear_all_data_title">Clear all data</string>
+    <string name="settings_category_ui_title">User interface</string>
+    <string name="settings_preference_large_table_title">Large table text size</string>
+    <string name="settings_preference_small_table_title">Small table text size</string>
 </resources>

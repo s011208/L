@@ -13,6 +13,7 @@ import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.TrackableFragment
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
+import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.repository.entity.LotteryEntity
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.CompositeDisposable
@@ -22,7 +23,9 @@ import kotlinx.android.synthetic.main.fragment_small_table.*
 import kotlinx.android.synthetic.main.fragment_small_table.initHint
 import kotlinx.android.synthetic.main.fragment_small_table.progressBar
 import kotlinx.android.synthetic.main.fragment_small_table.recyclerView
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 abstract class SmallTableFragment : TrackableFragment(), MainActivityActions,
     CompoundButton.OnCheckedChangeListener {
@@ -31,7 +34,8 @@ abstract class SmallTableFragment : TrackableFragment(), MainActivityActions,
         private const val ARGUMENT_LTO_TYPE = "lto_type"
     }
 
-    val fragmentViewModel: SmallTableViewModel by viewModel()
+    private val fragmentViewModel: SmallTableViewModel by viewModel()
+    private val sharedPreferenceHelper: SharedPreferenceHelper by inject()
 
     private lateinit var adapter: SmallTableRecyclerViewAdapter
 
@@ -96,6 +100,8 @@ abstract class SmallTableFragment : TrackableFragment(), MainActivityActions,
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        updateTextSize()
 
         radioButton0.setOnCheckedChangeListener(this)
         radioButton1.setOnCheckedChangeListener(this)
@@ -167,5 +173,32 @@ abstract class SmallTableFragment : TrackableFragment(), MainActivityActions,
 
         adapter.diffValue = diffValue
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Timber.v("onActivityResult, requestCode: $requestCode, resultCode: $resultCode")
+        updateTextSize(true)
+    }
+
+    private fun updateTextSize(update: Boolean = false) {
+        sharedPreferenceHelper.getSmallTableTextSize().also { textSize ->
+            adapter.textSize = textSize
+            Timber.v("textSize: $textSize")
+        }
+
+        sharedPreferenceHelper.getSmallTableCellWidth().also { cellWidth ->
+            adapter.cellWidth = cellWidth
+            Timber.v("cellWidth: $cellWidth")
+        }
+
+        sharedPreferenceHelper.getSmallTableCellDateWidth().also { cellDateWidth ->
+            adapter.cellDateWidth = cellDateWidth
+            Timber.v("cellDateWidth: $cellDateWidth")
+        }
+
+        if (update) {
+            adapter.notifyDataSetChanged()
+        }
     }
 }

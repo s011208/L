@@ -1,14 +1,17 @@
 package bj4.dev.yhh.l.ui.activity.settings.fragment.main
 
+import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.log.LogActivity
+import bj4.dev.yhh.l.ui.activity.settings.SettingsActivity
 import bj4.dev.yhh.repository.repository.LotteryRepository
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -18,7 +21,8 @@ import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-class MainSettingsFragment : PreferenceFragmentCompat() {
+class MainSettingsFragment : PreferenceFragmentCompat(),
+    SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         private const val KEY_JOB_SERVICE_LOG = "key_job_service_log"
         private const val KEY_UPDATE_TIME_SERVICE_LOG = "key_update_time_service_log"
@@ -26,6 +30,9 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         private const val KEY_RESET_ALL_DATA = "key_reset_all_data"
         private const val KEY_UPDATE_ALL_DATA = "key_update_all_data"
         private const val KET_CLEAR_ALL_DATA = "key_clear_all_data"
+
+        const val KEY_LARGE_TABLE_TEXT_SIZE = "key_large_table_text_size"
+        const val KEY_SMALL_TABLE_TEXT_SIZE = "key_small_table_text_size"
     }
 
     val repository: LotteryRepository by inject()
@@ -34,6 +41,31 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.settings_main)
+
+        updateLargeTableTextSizeSummary()
+        updateSmallTableTextSizeSummary()
+    }
+
+    private fun updateLargeTableTextSizeSummary() {
+        findPreference<ListPreference>(KEY_LARGE_TABLE_TEXT_SIZE)?.apply {
+            summary = entry
+        }
+    }
+
+    private fun updateSmallTableTextSizeSummary() {
+        findPreference<ListPreference>(KEY_SMALL_TABLE_TEXT_SIZE)?.apply {
+            summary = entry
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -58,13 +90,8 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                 true
             }
             KEY_RESET_ALL_DATA -> {
-                requireContext().stopService(
-                    Intent(
-                        requireContext(),
-                        UpdateLotteryIntentService::class.java
-                    )
-                )
                 compositeDisposable += Completable.fromCallable {
+                    stopUpdateLotteryService()
                     nukeAllTables()
                 }
                     .subscribeOn(Schedulers.io())
@@ -107,17 +134,21 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                 true
             }
             KEY_UPDATE_ALL_DATA -> {
-                requireContext().stopService(
-                    Intent(
-                        requireContext(),
-                        UpdateLotteryIntentService::class.java
-                    )
-                )
+                stopUpdateLotteryService()
                 updateAllData()
                 true
             }
             else -> super.onPreferenceTreeClick(preference)
         }
+    }
+
+    private fun stopUpdateLotteryService() {
+        requireContext().stopService(
+            Intent(
+                requireContext(),
+                UpdateLotteryIntentService::class.java
+            )
+        )
     }
 
     private fun updateAllData() {
@@ -152,5 +183,20 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         repository.nukeLtoBig()
         repository.nukeLtoHK()
         repository.nukeResult()
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+        when (key) {
+            KEY_LARGE_TABLE_TEXT_SIZE -> {
+                updateLargeTableTextSizeSummary()
+                if (activity is SettingsActivity) (activity as SettingsActivity).fragmentResult =
+                    Activity.RESULT_OK
+            }
+            KEY_SMALL_TABLE_TEXT_SIZE -> {
+                updateSmallTableTextSizeSummary()
+                if (activity is SettingsActivity) (activity as SettingsActivity).fragmentResult =
+                    Activity.RESULT_OK
+            }
+        }
     }
 }
