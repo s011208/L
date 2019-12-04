@@ -12,4 +12,12 @@
         <key>url_lto_big</key>
         <value>https://www.pilio.idv.tw/ltobig/list.asp?indexpage=</value>
     </entry>
+    <entry>
+        <key>url_lto_list3</key>
+        <value>https://www.pilio.idv.tw/lto/list3.asp?indexpage=</value>
+    </entry>
+    <entry>
+        <key>url_lto_list4</key>
+        <value>https://www.pilio.idv.tw/lto/list4.asp?indexpage=</value>
+    </entry>
 </defaultsMap>
