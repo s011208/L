@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/s011208/Project17.svg?style=svg)](https://circleci.com/gh/s011208/Project17)
+[![CircleCI](https://circleci.com/gh/s011208/L.svg?style=svg)](https://circleci.com/gh/s011208/L)
 
 # Lottery
 
