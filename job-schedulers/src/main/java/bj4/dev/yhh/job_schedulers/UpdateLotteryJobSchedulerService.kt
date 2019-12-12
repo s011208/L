@@ -32,7 +32,7 @@ class UpdateLotteryJobSchedulerService : JobService() {
             )
                 .setRequiresCharging(false)
                 .setRequiresDeviceIdle(false)
-                .setPeriodic(AlarmManager.INTERVAL_FIFTEEN_MINUTES)
+                .setPeriodic(AlarmManager.INTERVAL_HALF_DAY)
                 .setPersisted(true)
                 .build()
 

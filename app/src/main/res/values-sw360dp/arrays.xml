@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <integer-array name="preference_large_table_text_size">
+        <item>3</item>
         <item>5</item>
         <item>6</item>
         <item>8</item>
         <item>10</item>
-        <item>12</item>
     </integer-array>
 
     <integer-array name="preference_large_table_cell_width">
+        <item>15</item>
         <item>22</item>
-        <item>24</item>
+        <item>26</item>
         <item>30</item>
         <item>36</item>
-        <item>42</item>
     </integer-array>
 
     <integer-array name="preference_large_table_cell_date_width">
-        <item>76</item>
-        <item>84</item>
-        <item>112</item>
-        <item>136</item>
-        <item>160</item>
+        <item>46</item>
+        <item>74</item>
+        <item>88</item>
+        <item>110</item>
+        <item>140</item>
     </integer-array>
 
     <integer-array name="preference_small_table_text_size">
