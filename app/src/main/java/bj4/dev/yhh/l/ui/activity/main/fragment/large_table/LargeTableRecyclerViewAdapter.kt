@@ -1,6 +1,7 @@
 package bj4.dev.yhh.l.ui.activity.main.fragment.large_table
 
 import android.graphics.Color
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,7 +68,9 @@ class LargeTableRecyclerViewAdapter(
                 LinearLayout.LayoutParams(
                     cellDateWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
-                )
+                ).also {
+                    it.gravity = Gravity.CENTER_VERTICAL
+                }
             )
 
             for (index in Constants.LTO_HK_MIN..Constants.LTO_HK_MAX) {
@@ -80,6 +83,9 @@ class LargeTableRecyclerViewAdapter(
                 container.addView(
                     cell,
                     LinearLayout.LayoutParams(cellWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                        .also {
+                            it.gravity = Gravity.CENTER_VERTICAL
+                        }
                 )
             }
 
@@ -109,7 +115,9 @@ class LargeTableRecyclerViewAdapter(
                 LinearLayout.LayoutParams(
                     cellDateWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
-                )
+                ).also {
+                    it.gravity = Gravity.CENTER_VERTICAL
+                }
             )
 
             for (index in Constants.LTO_BIG_MIN..Constants.LTO_BIG_MAX) {
@@ -122,6 +130,9 @@ class LargeTableRecyclerViewAdapter(
                 container.addView(
                     cell,
                     LinearLayout.LayoutParams(cellWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                        .also {
+                            it.gravity = Gravity.CENTER_VERTICAL
+                        }
                 )
             }
             return LargeTableRecyclerViewHolder(
@@ -150,7 +161,9 @@ class LargeTableRecyclerViewAdapter(
                 LinearLayout.LayoutParams(
                     cellDateWidth,
                     LinearLayout.LayoutParams.WRAP_CONTENT
-                )
+                ).also {
+                    it.gravity = Gravity.CENTER_VERTICAL
+                }
             )
 
             for (index in Constants.LTO_COLUMN1_MIN..Constants.LTO_COLUMN1_MAX) {
@@ -163,6 +176,9 @@ class LargeTableRecyclerViewAdapter(
                 container.addView(
                     cell,
                     LinearLayout.LayoutParams(cellWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                        .also {
+                            it.gravity = Gravity.CENTER_VERTICAL
+                        }
                 )
             }
             for (index in Constants.LTO_COLUMN2_MIN..Constants.LTO_COLUMN2_MAX) {
@@ -175,6 +191,9 @@ class LargeTableRecyclerViewAdapter(
                 container.addView(
                     cell,
                     LinearLayout.LayoutParams(cellWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                        .also {
+                            it.gravity = Gravity.CENTER_VERTICAL
+                        }
                 )
             }
             return LargeTableRecyclerViewHolder(
@@ -283,7 +302,12 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text =
-                        if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
+                        if (isSubTotal(entity)) subTotalDateFormatter.format(
+                            LotteryEntity.getTimeStamp(
+                                lotteryType,
+                                entity
+                            )
+                        )
                         else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
                     textView.textSize = textSize
                     (textView.layoutParams as LinearLayout.LayoutParams).width = cellDateWidth
@@ -384,7 +408,12 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text =
-                        if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
+                        if (isSubTotal(entity)) subTotalDateFormatter.format(
+                            LotteryEntity.getTimeStamp(
+                                lotteryType,
+                                entity
+                            )
+                        )
                         else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))
@@ -496,7 +525,12 @@ class LargeTableRecyclerViewAdapter(
 
                 holder.container.findViewById<TextView>(R.id.epoxy_cell_date).also { textView ->
                     textView.text =
-                        if (isSubTotal(entity)) subTotalDateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
+                        if (isSubTotal(entity)) subTotalDateFormatter.format(
+                            LotteryEntity.getTimeStamp(
+                                lotteryType,
+                                entity
+                            )
+                        )
                         else dateFormatter.format(LotteryEntity.getTimeStamp(lotteryType, entity))
 
                     textView.setTextColor(textView.context.resources.getColor(R.color.large_table_date_text_foreground))

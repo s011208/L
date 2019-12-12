@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:autoSizeTextType="uniform"
     android:background="@drawable/bg_cell"
     android:gravity="center"
     android:lines="1"
     android:padding="3dp"
-    android:textColor="@color/large_table_date_text_foreground"
-    tools:targetApi="o" />
+    android:textColor="@color/large_table_date_text_foreground" />

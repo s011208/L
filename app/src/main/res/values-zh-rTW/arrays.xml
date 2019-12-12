@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sorting_array">
+        <item>順序</item>
+        <item>和數</item>
+        <item>尾數</item>
+    </string-array>
+
+    <string-array name="preference_table_text_size_list">
+        <item>極小</item>
+        <item>小</item>
+        <item>一般</item>
+        <item>大</item>
+        <item>極大</item>
+    </string-array>
+</resources>
