@@ -10,13 +10,13 @@ import io.reactivex.Single
 
 @Dao
 internal interface LogDao {
-    @Query("SELECT * FROM `UpdateServiceTimeEntity`")
+    @Query("SELECT * FROM `UpdateServiceTimeEntity` LIMIT 500")
     fun queryUpdateServiceTimeEntity(): Single<List<UpdateServiceTimeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(item: UpdateServiceTimeEntity): Long
 
-    @Query("SELECT * FROM `JobServiceEntity`")
+    @Query("SELECT * FROM `JobServiceEntity` LIMIT 500")
     fun queryJobServiceEntity(): Single<List<JobServiceEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
