@@ -43,6 +43,8 @@ dependencies {
     implementation Libs.rxjava2
     implementation Libs.rxandroid
     implementation Libs.rxkotlin
+    implementation Libs.firebase_analytics
 
     implementation project(path: ':log')
+    implementation project(path: ':tracker')
 }

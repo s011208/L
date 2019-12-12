@@ -7,16 +7,22 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.log.room.entity.UpdateServiceTimeEntity
 import bj4.dev.yhh.repository.LotteryType
 import bj4.dev.yhh.repository.repository.LotteryRepository
+import bj4.dev.yhh.tracker.TrackHelper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import org.koin.android.ext.android.inject
 import timber.log.Timber
+import java.net.UnknownHostException
 
 class UpdateLotteryIntentService : IntentService("Update-Lottery") {
 
@@ -37,6 +43,7 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
     }
 
     private val logHelper: LogHelper by inject()
+    private val trackHelper: TrackHelper by inject()
     val repository: LotteryRepository by inject()
 
     private val compositeDisposable = CompositeDisposable()
@@ -81,6 +88,30 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
         notificationManager.createNotificationChannel(channel)
     }
 
+    private fun handleError(throwable: Throwable) {
+        if (throwable is UnknownHostException) {
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(
+                    applicationContext,
+                    R.string.error_message_no_internet,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } else {
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(
+                    applicationContext,
+                    R.string.error_message_unknown,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            trackHelper.trackEvent(TrackHelper.TRACK_NAME_PARSER_ERROR, Bundle().apply {
+                putString(TrackHelper.PARAM_ERROR, throwable.message)
+            })
+        }
+    }
+
     override fun onHandleIntent(intent: Intent?) {
         if (intent == null) return
 
@@ -104,6 +135,8 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                                     message = "ACTION_UPDATE_LTO_HK failed, $it"
                                 )
                             )
+                            Timber.w(it, "ACTION_UPDATE_LTO_HK")
+                            handleError(it)
                         },
                         {
                             Timber.v("ACTION_UPDATE_LTO_HK, complete")
@@ -119,49 +152,53 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                 Timber.v("ACTION_UPDATE_LTO_BIG")
                 compositeDisposable += repository.parseLotteryData(LotteryType.LtoBig)
                     .subscribe(
-                    {
-                        Timber.v("ACTION_UPDATE_LTO_BIG, page: $it")
-                    },
-                    {
-                        logHelper.insert(
-                            UpdateServiceTimeEntity(
-                                message = "ACTION_UPDATE_LTO_BIG failed, $it"
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_BIG, page: $it")
+                        },
+                        {
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_BIG failed, $it"
+                                )
                             )
-                        )
-                    },
-                    {
-                        Timber.v("ACTION_UPDATE_LTO_BIG, complete")
-                        logHelper.insert(
-                            UpdateServiceTimeEntity(
-                                message = "ACTION_UPDATE_LTO_BIG complete"
+                            Timber.w(it, "ACTION_UPDATE_LTO_BIG")
+                            handleError(it)
+                        },
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_BIG, complete")
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_BIG complete"
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
             }
             ACTION_UPDATE_LTO -> {
                 Timber.v("ACTION_UPDATE_LTO")
                 compositeDisposable += repository.parseLotteryData(LotteryType.Lto)
                     .subscribe(
-                    {
-                        Timber.v("ACTION_UPDATE_LTO, page: $it")
-                    },
-                    {
-                        logHelper.insert(
-                            UpdateServiceTimeEntity(
-                                message = "ACTION_UPDATE_LTO failed, $it"
+                        {
+                            Timber.v("ACTION_UPDATE_LTO, page: $it")
+                        },
+                        {
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO failed, $it"
+                                )
                             )
-                        )
-                    },
-                    {
-                        Timber.v("ACTION_UPDATE_LTO, complete")
-                        logHelper.insert(
-                            UpdateServiceTimeEntity(
-                                message = "ACTION_UPDATE_LTO complete"
+                            Timber.w(it, "ACTION_UPDATE_LTO")
+                            handleError(it)
+                        },
+                        {
+                            Timber.v("ACTION_UPDATE_LTO, complete")
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO complete"
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
             }
             ACTION_UPDATE_LTO_LIST3 -> {
                 Timber.v("ACTION_UPDATE_LTO_LIST3")
@@ -176,6 +213,8 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                                     message = "ACTION_UPDATE_LTO_LIST3 failed, $it"
                                 )
                             )
+                            Timber.w(it, "ACTION_UPDATE_LTO_LIST3")
+                            handleError(it)
                         },
                         {
                             Timber.v("ACTION_UPDATE_LTO_LIST3, complete")
@@ -200,6 +239,8 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                                     message = "ACTION_UPDATE_LTO_LIST4 failed, $it"
                                 )
                             )
+                            Timber.w(it, "ACTION_UPDATE_LTO_LIST4")
+                            handleError(it)
                         },
                         {
                             Timber.v("ACTION_UPDATE_LTO_LIST4, complete")

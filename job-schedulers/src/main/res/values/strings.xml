@@ -3,4 +3,7 @@
 
     <string name="notification_channel_name">Update Lottery Service</string>
     <string name="notification_title">Updating lottery data</string>
+
+    <string name="error_message_no_internet">Cannot connect to Internet</string>
+    <string name="error_message_unknown">Unknown error</string>
 </resources>

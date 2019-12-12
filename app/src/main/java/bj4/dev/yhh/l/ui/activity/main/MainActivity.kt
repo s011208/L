@@ -17,9 +17,11 @@ import androidx.navigation.ui.setupWithNavController
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.main.dialog.SortingDialogFragment
 import bj4.dev.yhh.l.ui.activity.settings.SettingsActivity
+import bj4.dev.yhh.tracker.TrackHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -31,7 +33,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    val activityViewModel: MainActivityViewModel by viewModel()
+    private val activityViewModel: MainActivityViewModel by viewModel()
+
+    private val trackHelper: TrackHelper by inject()
 
     private var currentFragmentId: Int = 0
 
@@ -76,6 +80,11 @@ class MainActivity : AppCompatActivity() {
             if (fragment is MainActivityActions) {
                 fragment.onSortingTypeChanged(sortingType)
             }
+
+            trackHelper.trackEvent(TrackHelper.TRACK_NAME_MENU, Bundle().apply {
+                putString(TrackHelper.PARAM_MENU_TYPE, "sorting")
+                putInt(TrackHelper.PARAM_SORTING_TYPE, sortingType)
+            })
         })
     }
 
@@ -113,6 +122,9 @@ class MainActivity : AppCompatActivity() {
                     Intent(this, SettingsActivity::class.java),
                     REQUEST_CODE_SETTINGS
                 )
+                trackHelper.trackEvent(TrackHelper.TRACK_NAME_MENU, Bundle().apply {
+                    putString(TrackHelper.PARAM_MENU_TYPE, "settings")
+                })
                 true
             }
             R.id.action_sorting -> {
@@ -124,6 +136,9 @@ class MainActivity : AppCompatActivity() {
                 if (fragment is MainActivityActions) {
                     fragment.onMoveToTop()
                 }
+                trackHelper.trackEvent(TrackHelper.TRACK_NAME_MENU, Bundle().apply {
+                    putString(TrackHelper.PARAM_MENU_TYPE, "move to top")
+                })
                 true
             }
             R.id.action_move_to_bottom -> {
@@ -131,6 +146,9 @@ class MainActivity : AppCompatActivity() {
                 if (fragment is MainActivityActions) {
                     fragment.onMoveToBottom()
                 }
+                trackHelper.trackEvent(TrackHelper.TRACK_NAME_MENU, Bundle().apply {
+                    putString(TrackHelper.PARAM_MENU_TYPE, "move to bottom")
+                })
                 true
             }
             else -> super.onOptionsItemSelected(item)

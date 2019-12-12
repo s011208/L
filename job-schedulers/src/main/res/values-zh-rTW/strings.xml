@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">job-schedulers</string>
+
+    <string name="notification_channel_name">更新服務</string>
+    <string name="notification_title">正在更新樂透資料</string>
+
+    <string name="error_message_no_internet">無法連上網路</string>
+    <string name="error_message_unknown">未預期錯誤</string>
+</resources>
