@@ -37,6 +37,11 @@
             android:key="key_list_table_text_size"
             android:title="@string/settings_preference_list_table_title" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="key_always_use_horizontal"
+            android:title="@string/settings_preference_landscape_mode_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_category_log_title">

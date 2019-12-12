@@ -39,4 +39,5 @@
     <string name="settings_preference_large_table_title">Large table text size</string>
     <string name="settings_preference_small_table_title">Small table text size</string>
     <string name="settings_preference_list_table_title">List table text size</string>
+    <string name="settings_preference_landscape_mode_title">Always use landscape mode</string>
 </resources>

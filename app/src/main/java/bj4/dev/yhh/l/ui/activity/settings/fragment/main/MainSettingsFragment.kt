@@ -34,6 +34,8 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
         const val KEY_LARGE_TABLE_TEXT_SIZE = "key_large_table_text_size"
         const val KEY_SMALL_TABLE_TEXT_SIZE = "key_small_table_text_size"
         const val KEY_LIST_TABLE_TEXT_SIZE = "key_list_table_text_size"
+
+        const val KEY_ALWAYS_USE_HORIZONTAL = "key_always_use_horizontal"
     }
 
     val repository: LotteryRepository by inject()
@@ -225,6 +227,10 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
             }
             KEY_LIST_TABLE_TEXT_SIZE -> {
                 updateListTableTextSizeSummary()
+                if (activity is SettingsActivity) (activity as SettingsActivity).fragmentResult =
+                    Activity.RESULT_OK
+            }
+            KEY_ALWAYS_USE_HORIZONTAL -> {
                 if (activity is SettingsActivity) (activity as SettingsActivity).fragmentResult =
                     Activity.RESULT_OK
             }

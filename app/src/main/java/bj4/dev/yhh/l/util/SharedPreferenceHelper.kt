@@ -87,4 +87,6 @@ class SharedPreferenceHelper(private val context: Context) {
             MainSettingsFragment.KEY_LIST_TABLE_TEXT_SIZE,
             "2"
         )!!.toInt()] * Resources.getSystem().displayMetrics.density).toInt()
+
+    fun getIsLandscapeMode(): Boolean = preferenceManager.getBoolean(MainSettingsFragment.KEY_ALWAYS_USE_HORIZONTAL, false)
 }

@@ -15,8 +15,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import bj4.dev.yhh.l.R
+import bj4.dev.yhh.l.ui.activity.BaseActivity
 import bj4.dev.yhh.l.ui.activity.main.dialog.SortingDialogFragment
 import bj4.dev.yhh.l.ui.activity.settings.SettingsActivity
+import bj4.dev.yhh.l.util.SharedPreferenceHelper
 import bj4.dev.yhh.tracker.TrackHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -25,7 +27,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     companion object {
         const val REQUEST_CODE_SETTINGS = 10001
@@ -86,6 +88,8 @@ class MainActivity : AppCompatActivity() {
                 putInt(TrackHelper.PARAM_SORTING_TYPE, sortingType)
             })
         })
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
