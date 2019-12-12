@@ -58,10 +58,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_lto,
                 R.id.nav_small_lto_hk,
                 R.id.nav_small_lto_big,
-                R.id.nav_small_lto
+                R.id.nav_small_lto,
+                R.id.nav_lto_list3,
+                R.id.nav_lto_list4
             ), drawerLayout
         )
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             currentFragmentId = destination.id
             invalidateOptionsMenu()
         }
@@ -83,7 +85,8 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_lto, R.id.nav_lto_big, R.id.nav_lto_hk -> {
                 menu.children.forEach { if (it.itemId == R.id.action_sorting) it.isEnabled = true }
             }
-            R.id.nav_small_lto, R.id.nav_small_lto_big, R.id.nav_small_lto_hk -> {
+            R.id.nav_small_lto, R.id.nav_small_lto_big, R.id.nav_small_lto_hk,
+            R.id.nav_lto_list3, R.id.nav_lto_list4 -> {
                 menu.children.forEach { if (it.itemId == R.id.action_sorting) it.isEnabled = false }
             }
             else -> {

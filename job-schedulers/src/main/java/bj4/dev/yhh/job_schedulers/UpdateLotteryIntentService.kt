@@ -29,12 +29,14 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
         private const val KEY_HAS_CREATE_NOTIFICATION_CHANNEL =
             "KEY_HAS_CREATE_NOTIFICATION_CHANNEL"
 
+        const val ACTION_UPDATE_LTO_LIST3 = "lto_list3"
+        const val ACTION_UPDATE_LTO_LIST4 = "lto_list4"
         const val ACTION_UPDATE_LTO_HK = "lto_hk"
         const val ACTION_UPDATE_LTO_BIG = "lto_big"
         const val ACTION_UPDATE_LTO = "lto"
     }
 
-    val logHelper: LogHelper by inject()
+    private val logHelper: LogHelper by inject()
     val repository: LotteryRepository by inject()
 
     private val compositeDisposable = CompositeDisposable()
@@ -160,6 +162,54 @@ class UpdateLotteryIntentService : IntentService("Update-Lottery") {
                         )
                     }
                 )
+            }
+            ACTION_UPDATE_LTO_LIST3 -> {
+                Timber.v("ACTION_UPDATE_LTO_LIST3")
+                compositeDisposable += repository.parseLotteryData(LotteryType.LtoList3)
+                    .subscribe(
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_LIST3, page: $it")
+                        },
+                        {
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_LIST3 failed, $it"
+                                )
+                            )
+                        },
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_LIST3, complete")
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_LIST3 complete"
+                                )
+                            )
+                        }
+                    )
+            }
+            ACTION_UPDATE_LTO_LIST4 -> {
+                Timber.v("ACTION_UPDATE_LTO_LIST3")
+                compositeDisposable += repository.parseLotteryData(LotteryType.LtoList4)
+                    .subscribe(
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_LIST4, page: $it")
+                        },
+                        {
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_LIST4 failed, $it"
+                                )
+                            )
+                        },
+                        {
+                            Timber.v("ACTION_UPDATE_LTO_LIST4, complete")
+                            logHelper.insert(
+                                UpdateServiceTimeEntity(
+                                    message = "ACTION_UPDATE_LTO_LIST4 complete"
+                                )
+                            )
+                        }
+                    )
             }
         }
     }

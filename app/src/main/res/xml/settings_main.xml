@@ -30,6 +30,13 @@
             android:key="key_small_table_text_size"
             android:title="@string/settings_preference_small_table_title" />
 
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/preference_table_text_size_list"
+            android:entryValues="@array/preference_table_text_size_option"
+            android:key="key_list_table_text_size"
+            android:title="@string/settings_preference_list_table_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_category_log_title">

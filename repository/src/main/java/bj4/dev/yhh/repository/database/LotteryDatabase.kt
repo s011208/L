@@ -4,17 +4,17 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import bj4.dev.yhh.repository.converter.LotteryRawDataConverter
-import bj4.dev.yhh.repository.dao.LotteryResultDao
-import bj4.dev.yhh.repository.dao.LtoBigDao
-import bj4.dev.yhh.repository.dao.LtoDao
-import bj4.dev.yhh.repository.dao.LtoHKDao
-import bj4.dev.yhh.repository.entity.LotteryResultEntity
-import bj4.dev.yhh.repository.entity.LtoBigEntity
-import bj4.dev.yhh.repository.entity.LtoEntity
-import bj4.dev.yhh.repository.entity.LtoHKEntity
+import bj4.dev.yhh.repository.dao.*
+import bj4.dev.yhh.repository.entity.*
 
 @Database(
-    entities = [LotteryResultEntity::class, LtoHKEntity::class, LtoBigEntity::class, LtoEntity::class],
+    entities = [
+        LotteryResultEntity::class,
+        LtoList3Entity::class,
+        LtoList4Entity::class,
+        LtoHKEntity::class,
+        LtoBigEntity::class,
+        LtoEntity::class],
     version = 1
 )
 @TypeConverters(LotteryRawDataConverter::class)
@@ -27,4 +27,8 @@ abstract class LotteryDatabase : RoomDatabase() {
     abstract fun getLtoBigDao(): LtoBigDao
 
     abstract fun getLtoDao(): LtoDao
+
+    abstract fun getLtoList3Dao(): LtoList3Dao
+
+    abstract fun getLtoList4Dao(): LtoList4Dao
 }

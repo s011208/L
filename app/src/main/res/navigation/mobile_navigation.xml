@@ -70,4 +70,26 @@
             android:defaultValue="2"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_lto_list3"
+        android:name="bj4.dev.yhh.l.ui.activity.main.fragment.list_table.list3.LtoList3Fragment"
+        android:label="@string/menu_lto_list3"
+        tools:layout="@layout/fragment_list_table">
+        <argument
+            android:name="lto_type"
+            android:defaultValue="3"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_lto_list4"
+        android:name="bj4.dev.yhh.l.ui.activity.main.fragment.list_table.list4.LtoList4Fragment"
+        android:label="@string/menu_lto_list4"
+        tools:layout="@layout/fragment_list_table">
+        <argument
+            android:name="lto_type"
+            android:defaultValue="4"
+            app:argType="integer" />
+    </fragment>
 </navigation>

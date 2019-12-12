@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">L</string>
+    <string name="app_name">Lottery</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -13,12 +13,15 @@
 
     <string name="large_table">Large Table</string>
     <string name="small_table">Small Table</string>
+    <string name="list_table">Table</string>
 
     <string name="init_hint">"Data set is empty, click me to download data"</string>
 
     <string name="menu_lto_hk">Lto HK</string>
     <string name="menu_lto">Lto</string>
     <string name="menu_lto_big">Lto Big</string>
+    <string name="menu_lto_list3">Lto List3</string>
+    <string name="menu_lto_list4">Lto List4</string>
 
     <string name="settings_category_log_title">Log</string>
     <string name="settings_preference_job_service_log_title">Job service</string>
@@ -35,4 +38,5 @@
     <string name="settings_category_ui_title">User interface</string>
     <string name="settings_preference_large_table_title">Large table text size</string>
     <string name="settings_preference_small_table_title">Small table text size</string>
+    <string name="settings_preference_list_table_title">List table text size</string>
 </resources>

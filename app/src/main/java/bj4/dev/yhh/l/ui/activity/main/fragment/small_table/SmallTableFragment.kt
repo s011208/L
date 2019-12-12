@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
+import bj4.dev.yhh.l.BuildConfig
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.TrackableFragment
 import bj4.dev.yhh.l.ui.activity.main.MainActivityActions
@@ -132,6 +133,7 @@ abstract class SmallTableFragment : TrackableFragment(), MainActivityActions,
     }
 
     override fun onSortingTypeChanged(sortingType: Int) {
+        if (BuildConfig.DEBUG) throw IllegalStateException("Cannot have sorting call back")
     }
 
     override fun onMoveToBottom() {

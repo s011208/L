@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.SparseArray
 import androidx.core.util.contains
 import bj4.dev.yhh.lottery_parser.LotteryParser
+import bj4.dev.yhh.lottery_parser.list3.LtoList3Parser
+import bj4.dev.yhh.lottery_parser.list4.LtoList4Parser
 import bj4.dev.yhh.lottery_parser.lto.LtoParser
 import bj4.dev.yhh.lottery_parser.lto_big.LtoBigParser
 import bj4.dev.yhh.lottery_parser.lto_hk.LtoHKParser
@@ -33,14 +35,20 @@ class LotteryRepository(
     fun getLtoHKLiveData() = lotteryDatabaseHelper.database.getLtoHKDao().queryLiveData()
     fun getLtoLiveData() = lotteryDatabaseHelper.database.getLtoDao().queryLiveData()
     fun getLtoBigLiveData() = lotteryDatabaseHelper.database.getLtoBigDao().queryLiveData()
+    fun getLtoList3LiveData() = lotteryDatabaseHelper.database.getLtoList3Dao().queryLiveData()
+    fun getLtoList4LiveData() = lotteryDatabaseHelper.database.getLtoList4Dao().queryLiveData()
 
     fun getLtoHK() = lotteryDatabaseHelper.database.getLtoHKDao().query()
     fun getLto() = lotteryDatabaseHelper.database.getLtoDao().query()
     fun getLtoBig() = lotteryDatabaseHelper.database.getLtoBigDao().query()
+    fun getLtoList3() = lotteryDatabaseHelper.database.getLtoList3Dao().query()
+    fun getLtoList4() = lotteryDatabaseHelper.database.getLtoList4Dao().query()
 
     fun nukeLtoHK() = lotteryDatabaseHelper.database.getLtoHKDao().nukeTable()
     fun nukeLto() = lotteryDatabaseHelper.database.getLtoDao().nukeTable()
     fun nukeLtoBig() = lotteryDatabaseHelper.database.getLtoBigDao().nukeTable()
+    fun nukeLtoList3() = lotteryDatabaseHelper.database.getLtoList3Dao().nukeTable()
+    fun nukeLtoList4() = lotteryDatabaseHelper.database.getLtoList4Dao().nukeTable()
     fun nukeResult() = lotteryDatabaseHelper.database.getResultDao().nukeTable()
 
     private fun getLotteryDataSingle(@LotteryType lotteryType: Int): Single<List<LotteryEntity>> =
@@ -52,6 +60,12 @@ class LotteryRepository(
                 return@map ArrayList<LotteryEntity>(it)
             }
             LotteryType.LtoHK -> getLtoHK().map {
+                return@map ArrayList<LotteryEntity>(it)
+            }
+            LotteryType.LtoList3 -> getLtoList3().map {
+                return@map ArrayList<LotteryEntity>(it)
+            }
+            LotteryType.LtoList4 -> getLtoList4().map {
                 return@map ArrayList<LotteryEntity>(it)
             }
             else -> throw IllegalArgumentException("Wrong lottery type")
@@ -75,6 +89,16 @@ class LotteryRepository(
                     }
                     LotteryType.LtoHK -> {
                         LtoHKParser().also {
+                            parserMap.put(lotteryType, it)
+                        }
+                    }
+                    LotteryType.LtoList3 -> {
+                        LtoList3Parser().also {
+                            parserMap.put(lotteryType, it)
+                        }
+                    }
+                    LotteryType.LtoList4 -> {
+                        LtoList4Parser().also {
                             parserMap.put(lotteryType, it)
                         }
                     }
@@ -103,6 +127,14 @@ class LotteryRepository(
                         LotteryType.LtoHK -> {
                             lotteryDatabaseHelper.database.getLtoHKDao()
                                 .insertAll(list.map { it as LtoHKEntity })
+                        }
+                        LotteryType.LtoList3 -> {
+                            lotteryDatabaseHelper.database.getLtoList3Dao()
+                                .insertAll(list.map { it as LtoList3Entity })
+                        }
+                        LotteryType.LtoList4 -> {
+                            lotteryDatabaseHelper.database.getLtoList4Dao()
+                                .insertAll(list.map { it as LtoList4Entity })
                         }
                         else -> throw IllegalArgumentException("Wrong lottery type")
                     }
@@ -255,6 +287,22 @@ class LotteryRepository(
                             )
                         }
                     }
+                    LotteryType.LtoList3 -> {
+                        data.map { item ->
+                            return@map LtoList3Entity(
+                                item.date,
+                                item.number
+                            )
+                        }
+                    }
+                    LotteryType.LtoList4 -> {
+                        data.map { item ->
+                            return@map LtoList4Entity(
+                                item.date,
+                                item.number
+                            )
+                        }
+                    }
                     else -> throw IllegalArgumentException("Wrong lottery type")
                 }
 
@@ -272,6 +320,16 @@ class LotteryRepository(
                     LotteryType.LtoHK -> {
                         lotteryDatabaseHelper.database.getLtoHKDao()
                             .insertAll(mapData.map { it as LtoHKEntity })
+                            .filter { it >= 0 }
+                    }
+                    LotteryType.LtoList3 -> {
+                        lotteryDatabaseHelper.database.getLtoList3Dao()
+                            .insertAll(mapData.map { it as LtoList3Entity })
+                            .filter { it >= 0 }
+                    }
+                    LotteryType.LtoList4 -> {
+                        lotteryDatabaseHelper.database.getLtoList4Dao()
+                            .insertAll(mapData.map { it as LtoList4Entity })
                             .filter { it >= 0 }
                     }
                     else -> throw IllegalArgumentException("Wrong lottery type")
@@ -298,6 +356,8 @@ class LotteryRepository(
                                 LotteryType.Lto -> 1201104000000
                                 LotteryType.LtoHK -> 1025712000000
                                 LotteryType.LtoBig -> 1073232000000
+                                LotteryType.LtoList3 -> 1134921600000
+                                LotteryType.LtoList4 -> 1049644800000
                                 else -> IllegalArgumentException("Wrong lottery type")
                             }
                         }
@@ -481,6 +541,9 @@ class LotteryRepository(
                                     }
                                 )
                             }
+                            LotteryType.LtoList3 -> {}
+                            LotteryType.LtoList4 -> {}
+                            else -> throw IllegalArgumentException("Unknown type")
                         }
                     }
 

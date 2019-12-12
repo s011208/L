@@ -44,4 +44,22 @@
                 android:title="@string/small_table" />
         </menu>
     </item>
+
+    <item android:title="@string/menu_lto_list3">
+        <menu>
+            <item
+                android:id="@+id/nav_lto_list3"
+                android:icon="@drawable/ic_calendar_text_outline_black_24dp"
+                android:title="@string/list_table" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_lto_list4">
+        <menu>
+            <item
+                android:id="@+id/nav_lto_list4"
+                android:icon="@drawable/ic_calendar_text_outline_black_24dp"
+                android:title="@string/list_table" />
+        </menu>
+    </item>
 </menu>

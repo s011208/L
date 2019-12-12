@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import bj4.dev.yhh.repository.FirestoreHelper
 import bj4.dev.yhh.repository.LotteryType
-import bj4.dev.yhh.repository.entity.LotteryEntity
-import bj4.dev.yhh.repository.entity.LtoBigEntity
-import bj4.dev.yhh.repository.entity.LtoEntity
-import bj4.dev.yhh.repository.entity.LtoHKEntity
+import bj4.dev.yhh.repository.entity.*
 import com.google.gson.Gson
 import org.koin.android.ext.android.inject
 
@@ -49,6 +46,8 @@ class FirestoreService : IntentService("firestore service") {
                             LotteryType.LtoBig -> gson.fromJson(string, LtoBigEntity::class.java)
                             LotteryType.LtoHK -> gson.fromJson(string, LtoHKEntity::class.java)
                             LotteryType.Lto -> gson.fromJson(string, LtoEntity::class.java)
+                            LotteryType.LtoList3 -> gson.fromJson(string, LtoList3Entity::class.java)
+                            LotteryType.LtoList4 -> gson.fromJson(string, LtoList4Entity::class.java)
                             else -> throw IllegalArgumentException("Wrong lottery type")
                         }
                         add(entity)

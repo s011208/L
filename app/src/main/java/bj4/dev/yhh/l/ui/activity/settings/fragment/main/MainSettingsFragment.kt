@@ -33,6 +33,7 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
 
         const val KEY_LARGE_TABLE_TEXT_SIZE = "key_large_table_text_size"
         const val KEY_SMALL_TABLE_TEXT_SIZE = "key_small_table_text_size"
+        const val KEY_LIST_TABLE_TEXT_SIZE = "key_list_table_text_size"
     }
 
     val repository: LotteryRepository by inject()
@@ -44,6 +45,7 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
 
         updateLargeTableTextSizeSummary()
         updateSmallTableTextSizeSummary()
+        updateListTableTextSizeSummary()
     }
 
     private fun updateLargeTableTextSizeSummary() {
@@ -54,6 +56,12 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
 
     private fun updateSmallTableTextSizeSummary() {
         findPreference<ListPreference>(KEY_SMALL_TABLE_TEXT_SIZE)?.apply {
+            summary = entry
+        }
+    }
+
+    private fun updateListTableTextSizeSummary() {
+        findPreference<ListPreference>(KEY_LIST_TABLE_TEXT_SIZE)?.apply {
             summary = entry
         }
     }
@@ -176,6 +184,22 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
                 action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
             }
         )
+        requireContext().startService(
+            Intent(
+                requireContext(),
+                UpdateLotteryIntentService::class.java
+            ).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
+            }
+        )
+        requireContext().startService(
+            Intent(
+                requireContext(),
+                UpdateLotteryIntentService::class.java
+            ).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
+            }
+        )
     }
 
     private fun nukeAllTables() {
@@ -183,6 +207,8 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
         repository.nukeLtoBig()
         repository.nukeLtoHK()
         repository.nukeResult()
+        repository.nukeLtoList3()
+        repository.nukeLtoList4()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -194,6 +220,11 @@ class MainSettingsFragment : PreferenceFragmentCompat(),
             }
             KEY_SMALL_TABLE_TEXT_SIZE -> {
                 updateSmallTableTextSizeSummary()
+                if (activity is SettingsActivity) (activity as SettingsActivity).fragmentResult =
+                    Activity.RESULT_OK
+            }
+            KEY_LIST_TABLE_TEXT_SIZE -> {
+                updateListTableTextSizeSummary()
                 if (activity is SettingsActivity) (activity as SettingsActivity).fragmentResult =
                     Activity.RESULT_OK
             }

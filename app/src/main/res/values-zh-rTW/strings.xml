@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">樂透</string>
+    <string name="navigation_drawer_open">打開導覽列</string>
+    <string name="navigation_drawer_close">關閉導覽列</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">導覽列</string>
+
+    <string name="action_settings">設定</string>
+    <string name="action_sorting">排序</string>
+    <string name="action_move_to_bottom">移置底部</string>
+    <string name="action_move_to_top">移置頂部</string>
+
+    <string name="large_table">大表格</string>
+    <string name="small_table">小表格</string>
+    <string name="list_table">表格</string>
+
+    <string name="init_hint">沒有資料，點擊下載</string>
+
+    <string name="menu_lto_hk">六合彩</string>
+    <string name="menu_lto">威力彩</string>
+    <string name="menu_lto_big">大樂透</string>
+    <string name="menu_lto_list3">三星彩</string>
+    <string name="menu_lto_list4">四星彩</string>
+
+    <string name="settings_category_log_title">紀錄</string>
+    <string name="settings_preference_job_service_log_title">更新工作服務</string>
+    <string name="settings_preference_job_service_log_summary">更新工作服務紀錄</string>
+    <string name="settings_preference_update_time_service_log_title">更新時間服務</string>
+    <string name="settings_preference_update_time_service_log_summary">更新時間服務紀錄</string>
+
+    <string name="settings_category_data_title">資料</string>
+    <string name="settings_preference_reset_all_data_title">重置所有資料</string>
+    <string name="settings_preference_reset_all_data_summary">更新所有樂透資料並且重新下載</string>
+    <string name="settings_preference_update_all_data_title">更新所有資料</string>
+    <string name="settings_clear_all_data_toast">資料已全部清除</string>
+    <string name="settings_preference_clear_all_data_title">清除所有資料</string>
+    <string name="settings_category_ui_title">使用者介面</string>
+    <string name="settings_preference_large_table_title">大表格字體大小</string>
+    <string name="settings_preference_small_table_title">小表格字體大小</string>
+    <string name="settings_preference_list_table_title">星彩表格字體大小</string>
+</resources>

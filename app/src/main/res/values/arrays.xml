@@ -69,4 +69,28 @@
         <item>180</item>
         <item>220</item>
     </integer-array>
+
+    <integer-array name="preference_list_table_text_size">
+        <item>10</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+    </integer-array>
+
+    <integer-array name="preference_list_table_cell_width">
+        <item>32</item>
+        <item>38</item>
+        <item>44</item>
+        <item>48</item>
+        <item>52</item>
+    </integer-array>
+
+    <integer-array name="preference_list_table_cell_date_width">
+        <item>120</item>
+        <item>140</item>
+        <item>160</item>
+        <item>180</item>
+        <item>220</item>
+    </integer-array>
 </resources>

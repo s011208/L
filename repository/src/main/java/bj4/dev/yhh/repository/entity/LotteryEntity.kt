@@ -9,6 +9,8 @@ abstract class LotteryEntity {
                 LotteryType.LtoBig -> (entity as LtoBigEntity).timeStamp
                 LotteryType.Lto -> (entity as LtoEntity).timeStamp
                 LotteryType.LtoHK -> (entity as LtoHKEntity).timeStamp
+                LotteryType.LtoList3 -> (entity as LtoList3Entity).timeStamp
+                LotteryType.LtoList4 -> (entity as LtoList4Entity).timeStamp
                 else -> throw IllegalArgumentException("Unknown type")
             }
         }

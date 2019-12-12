@@ -1,9 +1,6 @@
 package bj4.dev.yhh.repository
 
-import bj4.dev.yhh.repository.entity.LotteryEntity
-import bj4.dev.yhh.repository.entity.LtoBigEntity
-import bj4.dev.yhh.repository.entity.LtoEntity
-import bj4.dev.yhh.repository.entity.LtoHKEntity
+import bj4.dev.yhh.repository.entity.*
 import com.google.firebase.firestore.FirebaseFirestore
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -15,6 +12,8 @@ class FirestoreHelper {
         const val COLLECTION_LTO = "lto"
         const val COLLECTION_LTO_BIG = "lto_big"
         const val COLLECTION_LTO_HK = "lto_hk"
+        const val COLLECTION_LTO_LIST3 = "lto_list3"
+        const val COLLECTION_LTO_LIST4 = "lto_list4"
     }
 
     private val firestore = FirebaseFirestore.getInstance()
@@ -24,6 +23,8 @@ class FirestoreHelper {
             LotteryType.LtoBig -> COLLECTION_LTO
             LotteryType.Lto -> COLLECTION_LTO_BIG
             LotteryType.LtoHK -> COLLECTION_LTO_HK
+            LotteryType.LtoList3 -> COLLECTION_LTO_LIST3
+            LotteryType.LtoList4 -> COLLECTION_LTO_LIST4
             else -> throw IllegalArgumentException("Wrong lottery type")
         }
 
@@ -39,6 +40,8 @@ class FirestoreHelper {
                                 LotteryType.LtoBig -> snapshot.toObjects(LtoBigEntity::class.java)
                                 LotteryType.Lto -> snapshot.toObjects(LtoEntity::class.java)
                                 LotteryType.LtoHK -> snapshot.toObjects(LtoHKEntity::class.java)
+                                LotteryType.LtoList3 -> snapshot.toObjects(LtoList3Entity::class.java)
+                                LotteryType.LtoList4 -> snapshot.toObjects(LtoList4Entity::class.java)
                                 else -> throw IllegalArgumentException("Wrong lottery type")
                             }
                         )

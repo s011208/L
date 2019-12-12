@@ -17,5 +17,8 @@ class Constants {
         const val LTO_COLUMN2_MIN = 1
         const val LTO_COLUMN2_MAX = 8
         const val LTO_COLUMN2_COUNT = 1
+
+        const val LTO_LIST3_COUNT = 3
+        const val LTO_LIST4_COUNT = 4
     }
 }

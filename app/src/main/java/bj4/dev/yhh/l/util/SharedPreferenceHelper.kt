@@ -69,4 +69,22 @@ class SharedPreferenceHelper(private val context: Context) {
             MainSettingsFragment.KEY_SMALL_TABLE_TEXT_SIZE,
             "2"
         )!!.toInt()] * Resources.getSystem().displayMetrics.density).toInt()
+
+    fun getListTableTextSize(): Float =
+        context.resources.getIntArray(R.array.preference_list_table_text_size)[preferenceManager.getString(
+            MainSettingsFragment.KEY_LIST_TABLE_TEXT_SIZE,
+            "2"
+        )!!.toInt()] * Resources.getSystem().displayMetrics.density
+
+    fun getListTableCellWidth(): Int =
+        (context.resources.getIntArray(R.array.preference_list_table_cell_width)[preferenceManager.getString(
+            MainSettingsFragment.KEY_LIST_TABLE_TEXT_SIZE,
+            "2"
+        )!!.toInt()] * Resources.getSystem().displayMetrics.density).toInt()
+
+    fun getListTableCellDateWidth(): Int =
+        (context.resources.getIntArray(R.array.preference_list_table_cell_date_width)[preferenceManager.getString(
+            MainSettingsFragment.KEY_LIST_TABLE_TEXT_SIZE,
+            "2"
+        )!!.toInt()] * Resources.getSystem().displayMetrics.density).toInt()
 }

@@ -68,6 +68,12 @@ class UpdateLotteryJobSchedulerService : JobService() {
         startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
             action = UpdateLotteryIntentService.ACTION_UPDATE_LTO
         })
+        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
+        })
+        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
+        })
 
         Timber.v("UpdateLotteryJobSchedulerService onStartJob")
         compositeDisposable +=
