@@ -35,9 +35,12 @@
 
         <activity
             android:name=".ui.activity.settings.SettingsActivity"
-            android:label="@string/action_settings" />
+            android:label="@string/action_settings"
+            android:parentActivityName=".ui.activity.main.MainActivity" />
 
-        <activity android:name=".ui.activity.log.LogActivity" />
+        <activity
+            android:name=".ui.activity.log.LogActivity"
+            android:parentActivityName=".ui.activity.settings.SettingsActivity" />
     </application>
 
 </manifest>
