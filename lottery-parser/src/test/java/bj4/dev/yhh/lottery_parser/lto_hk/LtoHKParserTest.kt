@@ -19,9 +19,4 @@ class LtoHKParserTest {
     fun parse() {
         assertEquals(parser.parse(3).size, 23)
     }
-
-    @Test
-    fun parseLast() {
-        assertEquals(parser.parse(99999).size, 22)
-    }
 }

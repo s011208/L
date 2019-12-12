@@ -15,6 +15,6 @@ class LtoBigParserTest {
 
     @Test
     fun parse() {
-        assertEquals(parser.parse(999).size, 23)
+        assertEquals(parser.parse(1).size, 23)
     }
 }
