@@ -8,6 +8,7 @@ import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import bj4.dev.yhh.log.LogHelper
 import bj4.dev.yhh.log.room.entity.JobServiceEntity
 import io.reactivex.Completable
@@ -59,21 +60,41 @@ class UpdateLotteryJobSchedulerService : JobService() {
     }
 
     override fun onStartJob(params: JobParameters): Boolean {
-        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_HK
-        })
-        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
-        })
-        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO
-        })
-        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
-        })
-        startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-            action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
-        })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_HK
+            })
+            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
+            })
+            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO
+            })
+            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
+            })
+            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
+            })
+        } else {
+            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_HK
+            })
+            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
+            })
+            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO
+            })
+            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
+            })
+            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
+                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
+            })
+        }
+
+
 
         Timber.v("UpdateLotteryJobSchedulerService onStartJob")
         compositeDisposable +=
