@@ -6,4 +6,6 @@
 
     <string name="error_message_no_internet">Cannot connect to Internet</string>
     <string name="error_message_unknown">Unknown error</string>
+    <string name="update_all_complete_toast">Finish to update all data</string>
+    <string name="update_all_start_toast">Prepare to update all data</string>
 </resources>

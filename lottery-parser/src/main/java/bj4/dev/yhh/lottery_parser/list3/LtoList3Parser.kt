@@ -80,9 +80,9 @@ class LtoList3Parser : LotteryParser {
             }
         }
 
-        for (item in rtn) {
-            println(item)
-        }
+//        for (item in rtn) {
+//            println(item)
+//        }
 
         return rtn
     }

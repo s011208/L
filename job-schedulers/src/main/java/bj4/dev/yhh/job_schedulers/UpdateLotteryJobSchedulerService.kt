@@ -60,41 +60,7 @@ class UpdateLotteryJobSchedulerService : JobService() {
     }
 
     override fun onStartJob(params: JobParameters): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_HK
-            })
-            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
-            })
-            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO
-            })
-            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
-            })
-            startForegroundService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
-            })
-        } else {
-            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_HK
-            })
-            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_BIG
-            })
-            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO
-            })
-            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST3
-            })
-            startService(Intent(this, UpdateLotteryIntentService::class.java).apply {
-                action = UpdateLotteryIntentService.ACTION_UPDATE_LTO_LIST4
-            })
-        }
-
-
+        UpdateLotteryIntentService.updateAll(this)
 
         Timber.v("UpdateLotteryJobSchedulerService onStartJob")
         compositeDisposable +=

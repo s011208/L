@@ -1,6 +1,7 @@
 package bj4.dev.yhh.l.ui.activity.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import bj4.dev.yhh.job_schedulers.UpdateLotteryIntentService
 import bj4.dev.yhh.l.R
 import bj4.dev.yhh.l.ui.activity.BaseActivity
 import bj4.dev.yhh.l.ui.activity.main.dialog.SortingDialogFragment
@@ -153,6 +155,10 @@ class MainActivity : BaseActivity() {
                 trackHelper.trackEvent(TrackHelper.TRACK_NAME_MENU, Bundle().apply {
                     putString(TrackHelper.PARAM_MENU_TYPE, "move to bottom")
                 })
+                true
+            }
+            R.id.action_update -> {
+                UpdateLotteryIntentService.updateAll(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -6,4 +6,6 @@
 
     <string name="error_message_no_internet">無法連上網路</string>
     <string name="error_message_unknown">未預期錯誤</string>
+    <string name="update_all_complete_toast">資料更新完成</string>
+    <string name="update_all_start_toast">準備更新資料</string>
 </resources>

@@ -7,6 +7,7 @@
     <string name="action_sorting">排序</string>
     <string name="action_move_to_bottom">移置底部</string>
     <string name="action_move_to_top">移置頂部</string>
+    <string name="action_update">更新資料</string>
 
     <string name="large_table">大表格</string>
     <string name="small_table">小表格</string>
