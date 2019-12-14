@@ -2,9 +2,6 @@
     <string name="app_name">樂透</string>
     <string name="navigation_drawer_open">打開導覽列</string>
     <string name="navigation_drawer_close">關閉導覽列</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">導覽列</string>
 
     <string name="action_settings">設定</string>
     <string name="action_sorting">排序</string>
